@@ -1,6 +1,15 @@
 export default function AlarmManagerModel() {
-  let standardTime = Date();
+  let standardTime = new Date();
   let alarmArray = [];
+  let that = this;
+  // let timer = setInterval(function () {
+  //   that.passStandardTime();
+  // }, 1000);
+
+  this.passStandardTime = function () {
+    standardTime = new Date();
+    console.log(standardTime);
+  };
 
   this.getStandardTime = function () {
     return standardTime;
