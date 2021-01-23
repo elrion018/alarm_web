@@ -4,5 +4,6 @@ module.exports = {
     path: __dirname + '/dist',
     filename: 'bundle.js',
   },
+  target: ['es5'],
   mode: 'development',
 };
