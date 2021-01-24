@@ -1,10 +1,11 @@
 import { Alarm } from '../../models';
 import { compareWithTime } from '../../utils';
+import { Publisher } from '../../library';
 
 export default function AlarmManagerModel() {
   this.standardTime = new Date();
   this.alarmArray = [];
-  this.subscriber = [];
+  this.publisher = new Publisher();
   this._timer = null;
   var that = this;
 

@@ -1,7 +1,7 @@
 export default function Observer() {
-  this.subscribe = function (self, target) {
-    target.register(self);
-  };
+  this.observe = function (self, target) {
+    target.publisher.register(self);
 
-  return;
+    console.log(target.publisher.observers);
+  };
 }
