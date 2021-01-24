@@ -4,6 +4,7 @@ import { compareWithTime } from '../../utils';
 export default function AlarmManagerModel() {
   this.standardTime = new Date();
   this.alarmArray = [];
+  this.subscriber = [];
   this._timer = null;
   var that = this;
 
