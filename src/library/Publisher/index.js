@@ -7,7 +7,7 @@ export default function Publisher() {
 
   this.publish = function (callback) {
     for (var i = 0; i < this.observers.length; i++) {
-      this.observers[i].callback();
+      this.observers[i][callback]();
     }
   };
 }
