@@ -1,9 +1,10 @@
 import { Alarm } from '../../models';
+import { compareWithTime } from '../../utils';
 
 export default function AlarmManagerModel() {
-  var standardTime = new Date();
-  var alarmArray = [];
-  var _timer = null;
+  this.standardTime = new Date();
+  this.alarmArray = [];
+  this._timer = null;
   var that = this;
 
   setTimer();
@@ -15,37 +16,47 @@ export default function AlarmManagerModel() {
   }
 
   this.passStandardTime = function () {
-    standardTime.setMilliseconds(standardTime.getMilliseconds() + 1000);
+    this.standardTime.setMilliseconds(
+      this.standardTime.getMilliseconds() + 1000
+    );
 
-    console.log(standardTime);
-    return standardTime;
+    console.log(this.standardTime);
+    return this.standardTime;
   };
 
   this.getStandardTime = function () {
-    return standardTime;
+    return this.standardTime;
   };
 
   this.setStandardTime = function (time) {
     clearInterval(that._timer);
-    standardTime = time;
+    this.standardTime = time;
     setTimer();
 
-    return standardTime;
+    return this.standardTime;
   };
 
   this.getAlarmArray = function () {
-    return alarmArray;
+    return this.alarmArray;
   };
 
   this.setAlarmArray = function (array) {
-    alarmArray = array;
+    this.alarmArray = array;
 
-    return alarmArray;
+    if (this.alarmArray.length >= 2) {
+      this.alarmArray.sort(compareWithTime);
+    }
+
+    return this.alarmArray;
   };
 
   this.addAlarmToAlarmArray = function (alarmObj) {
-    alarmArray.push(new Alarm(alarmObj));
+    this.alarmArray.push(new Alarm(alarmObj));
 
-    return alarmArray;
+    if (this.alarmArray.length >= 2) {
+      this.alarmArray.sort(compareWithTime);
+    }
+
+    return this.alarmArray;
   };
 }

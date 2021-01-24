@@ -1,58 +1,58 @@
 export default function Alarm(alarmObj) {
-  var alarmTime = alarmObj.alarmTime;
-  var clockMode = alarmObj.clockMode;
-  var alarmMode = alarmObj.alarmMode;
-  var alarmContent = alarmObj.alarmContent;
-  var alarmOnOffState = alarmObj.alarmOnOffState;
-  // var that = this;
+  this.alarmTime = alarmObj.alarmTime;
+  this.clockMode = alarmObj.clockMode;
+  this.alarmMode = alarmObj.alarmMode;
+  this.alarmContent = alarmObj.alarmContent;
+  this.alarmOnOffState = alarmObj.alarmOnOffState;
+  var that = this;
 
   this.setAlarmTime = function (time) {
-    alarmTime = time;
+    this.alarmTime = time;
 
-    return alarmTime;
+    return this.alarmTime;
   };
 
   this.getAlarmTime = function () {
-    return alarmTime;
+    return this.alarmTime;
   };
 
   this.setClockMode = function (mode) {
-    clockMode = mode;
+    this.clockMode = mode;
 
-    return clockMode;
+    return this.clockMode;
   };
 
-  this.getClockMode = function (mode) {
-    return clockMode;
+  this.getClockMode = function () {
+    return this.clockMode;
   };
 
   this.setAlarmMode = function (mode) {
-    alarmMode = mode;
+    this.alarmMode = mode;
 
-    return alarmMode;
+    return this.alarmMode;
   };
 
-  this.getAlarmMode = function (mode) {
-    return alarmMode;
+  this.getAlarmMode = function () {
+    return this.alarmMode;
   };
 
   this.setAlarmContent = function (content) {
-    alarmContent = content;
+    this.alarmContent = content;
 
-    return alarmContent;
+    return this.alarmContent;
   };
 
   this.getAlarmContent = function () {
-    return alarmContent;
+    return this.alarmContent;
   };
 
   this.setAlarmOnOffState = function (onOffState) {
-    alarmOnOffState = onOffState;
+    this.alarmOnOffState = onOffState;
 
-    return alarmOnOffState;
+    return this.alarmOnOffState;
   };
 
   this.getAlarmOnOffState = function () {
-    return alarmOnOffState;
+    return this.alarmOnOffState;
   };
 }
