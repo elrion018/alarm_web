@@ -1,3 +1,5 @@
+import { Alarm } from '../../models';
+
 export default function AlarmManagerModel() {
   var standardTime = new Date();
   var alarmArray = [];
@@ -37,6 +39,12 @@ export default function AlarmManagerModel() {
 
   this.setAlarmArray = function (array) {
     alarmArray = array;
+
+    return alarmArray;
+  };
+
+  this.addAlarmToAlarmArray = function (alarmObj) {
+    alarmArray.push(new Alarm(alarmObj));
 
     return alarmArray;
   };

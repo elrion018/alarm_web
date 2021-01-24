@@ -1,9 +1,9 @@
-export default function Alarm() {
-  var alarmTime = new Date();
-  var clockMode = '';
-  var alarmMode = '';
-  var alarmContent = '';
-  var alarmOnOffState = false;
+export default function Alarm(alarmObj) {
+  var alarmTime = alarmObj.alarmTime;
+  var clockMode = alarmObj.clockMode;
+  var alarmMode = alarmObj.alarmMode;
+  var alarmContent = alarmObj.alarmContent;
+  var alarmOnOffState = alarmObj.alarmOnOffState;
   // var that = this;
 
   this.setAlarmTime = function (time) {
