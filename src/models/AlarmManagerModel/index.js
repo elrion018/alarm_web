@@ -50,13 +50,25 @@ export default function AlarmManagerModel() {
     return this.alarmArray;
   };
 
-  this.addAlarmToAlarmArray = function (alarmObj) {
-    this.alarmArray.push(new Alarm(alarmObj));
+  this.addAlarmToAlarmArray = function (alarmObject) {
+    this.alarmArray.push(new Alarm(alarmObject));
 
     if (this.alarmArray.length >= 2) {
       this.alarmArray.sort(compareWithTime);
     }
 
     return this.alarmArray;
+  };
+
+  this.removeAlarmFromAlarmArray = function (alarmIndex) {
+    this.alarmArray.splice(alarmIndex, 1);
+
+    return this.alarmArray;
+  };
+
+  this.setOnOffStateOfAlarm = function (alarmIndex) {
+    return this.alarmArray[alarmIndex].setAlarmOnOffState(
+      !this.alarmArray[alarmIndex].getAlarmOnOffState()
+    );
   };
 }

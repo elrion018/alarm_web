@@ -35,3 +35,6 @@ console.log(
     alarmOnOffState: true,
   })
 );
+
+console.log(managerModel.setOnOffStateOfAlarm(1));
+console.log(managerModel.getAlarmArray());
