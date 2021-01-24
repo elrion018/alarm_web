@@ -1,6 +1,8 @@
 import { AlarmManagerModel } from './models';
+import { AlarmManagerViewModel } from './viewModels';
 
 var managerModel = new AlarmManagerModel();
+var managerViewModel = new AlarmManagerViewModel(managerModel);
 
 // console.log(managerModel.getStandardTime());
 
