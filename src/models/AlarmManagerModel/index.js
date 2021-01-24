@@ -1,14 +1,22 @@
 export default function AlarmManagerModel() {
-  let standardTime = new Date();
-  let alarmArray = [];
-  let that = this;
-  // let timer = setInterval(function () {
-  //   that.passStandardTime();
-  // }, 1000);
+  var standardTime = new Date();
+  var alarmArray = [];
+  var timer = null;
+  var that = this;
+
+  setTimer();
+
+  function setTimer() {
+    that.timer = setInterval(function () {
+      that.passStandardTime();
+    }, 1000);
+  }
 
   this.passStandardTime = function () {
-    standardTime = new Date();
+    standardTime.setMilliseconds(standardTime.getMilliseconds() + 1000);
+
     console.log(standardTime);
+    return standardTime;
   };
 
   this.getStandardTime = function () {
@@ -16,7 +24,9 @@ export default function AlarmManagerModel() {
   };
 
   this.setStandardTime = function (time) {
+    clearInterval(that.timer);
     standardTime = time;
+    setTimer();
 
     return standardTime;
   };

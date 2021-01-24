@@ -1,9 +1,7 @@
 import { AlarmManagerModel } from './models';
 
-const managerModel = new AlarmManagerModel();
+var managerModel = new AlarmManagerModel();
 
-function test() {
-  console.log('call');
-}
+console.log(managerModel.getStandardTime());
 
-let timer = setInterval(test, 1000);
+managerModel.setStandardTime(new Date('1997-12-17T03:24:00'));
