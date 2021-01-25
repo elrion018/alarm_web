@@ -1,0 +1,38 @@
+.flatpickr-calendar {
+  width: 30px;
+  display: none;
+  position: absolute;
+  background-color: aqua;
+}
+
+.open {
+  display: block;
+}
+
+input {
+  color: #424242;
+  font-size: 1.2em;
+  padding: 10px 10px 5px 5px;
+  display: block;
+  width: 300px;
+  border: none;
+  border-bottom: 1px solid #607d8b;
+}
+
+input:focus {
+  outline: none;
+}
+
+input:focus ~ label.input-label {
+  color: #0288d1;
+}
+
+input[readonly] ~ label.input-label {
+  top: -15px;
+  font-size: 0.9em;
+}
+
+input:focus ~ .bar:before,
+input:focus ~ .bar:after {
+  width: 50%;
+}
