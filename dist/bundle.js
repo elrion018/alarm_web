@@ -10,13 +10,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/constants/index.js":
+/*!********************************!*\
+  !*** ./src/constants/index.js ***!
+  \********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"messages\": function() { return /* binding */ messages; }\n/* harmony export */ });\nvar messages = {\r\n  STANDARD_HEADING: '현재 시간',\r\n};\r\n\r\n\r\n\n\n//# sourceURL=webpack://alarm_web/./src/constants/index.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models */ \"./src/models/index.js\");\n/* harmony import */ var _viewModels__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./viewModels */ \"./src/viewModels/index.js\");\n\r\n\r\n\r\nvar managerModel = new _models__WEBPACK_IMPORTED_MODULE_0__.AlarmManagerModel();\r\nvar managerViewModel = new _viewModels__WEBPACK_IMPORTED_MODULE_1__.AlarmManagerViewModel(managerModel);\r\n\r\n// console.log(managerModel.getStandardTime());\r\n\r\n// console.log(managerModel.setStandardTime(new Date('1997-12-17T03:24:00')));\r\n\r\nconsole.log(\r\n  managerViewModel.addAlarmToAlarmArray({\r\n    alarmTime: new Date(),\r\n    clockMode: 'test',\r\n    alarmMode: 'test',\r\n    alarmContent: 'test',\r\n    alarmOnOffState: true,\r\n  })\r\n);\r\n\r\nconsole.log(\r\n  managerViewModel.addAlarmToAlarmArray({\r\n    alarmTime: new Date('1997-12-17T03:24:00'),\r\n    clockMode: 'test',\r\n    alarmMode: 'test',\r\n    alarmContent: 'test',\r\n    alarmOnOffState: true,\r\n  })\r\n);\r\n\r\nconsole.log(\r\n  managerViewModel.addAlarmToAlarmArray({\r\n    alarmTime: new Date('2021-01-25T18:53:30'),\r\n    clockMode: 'test',\r\n    alarmMode: 'test',\r\n    alarmContent: 'test',\r\n    alarmOnOffState: true,\r\n  })\r\n);\r\n\r\n// console.log(managerModel.setOnOffStateOfAlarm(1));\r\n// console.log(managerModel.getAlarmArray());\r\n\n\n//# sourceURL=webpack://alarm_web/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models */ \"./src/models/index.js\");\n/* harmony import */ var _viewModels__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./viewModels */ \"./src/viewModels/index.js\");\n/* harmony import */ var _views__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views */ \"./src/views/index.js\");\n\r\n\r\n\r\n\r\nwindow.addEventListener('DOMContentLoaded', () => {\r\n  var managerContainer = document.querySelector('#manager-container');\r\n  var managerModel = new _models__WEBPACK_IMPORTED_MODULE_0__.AlarmManagerModel();\r\n  var managerViewModel = new _viewModels__WEBPACK_IMPORTED_MODULE_1__.AlarmManagerViewModel(managerModel);\r\n  var managerView = new _views__WEBPACK_IMPORTED_MODULE_2__.AlarmManagerView(managerViewModel, managerContainer);\r\n\r\n  // console.log(managerModel.getStandardTime());\r\n\r\n  // console.log(managerModel.setStandardTime(new Date('1997-12-17T03:24:00')));\r\n\r\n  console.log(\r\n    managerViewModel.addAlarmToAlarmArray({\r\n      alarmTime: new Date(),\r\n      clockMode: 'test',\r\n      alarmMode: 'test',\r\n      alarmContent: 'test',\r\n      alarmOnOffState: true,\r\n    })\r\n  );\r\n\r\n  console.log(\r\n    managerViewModel.addAlarmToAlarmArray({\r\n      alarmTime: new Date('1997-12-17T03:24:00'),\r\n      clockMode: 'test',\r\n      alarmMode: 'test',\r\n      alarmContent: 'test',\r\n      alarmOnOffState: true,\r\n    })\r\n  );\r\n\r\n  console.log(\r\n    managerViewModel.addAlarmToAlarmArray({\r\n      alarmTime: new Date('2021-01-25T18:53:30'),\r\n      clockMode: 'test',\r\n      alarmMode: 'test',\r\n      alarmContent: 'test',\r\n      alarmOnOffState: true,\r\n    })\r\n  );\r\n\r\n  // console.log(managerModel.setOnOffStateOfAlarm(1));\r\n  // console.log(managerModel.getAlarmArray());\r\n});\r\n\n\n//# sourceURL=webpack://alarm_web/./src/index.js?");
 
 /***/ }),
 
@@ -97,6 +107,26 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AlarmManagerViewModel\": function() { return /* reexport safe */ _AlarmManagerViewModel__WEBPACK_IMPORTED_MODULE_0__.default; }\n/* harmony export */ });\n/* harmony import */ var _AlarmManagerViewModel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AlarmManagerViewModel */ \"./src/viewModels/AlarmManagerViewModel/index.js\");\n\r\n\r\n\r\n\n\n//# sourceURL=webpack://alarm_web/./src/viewModels/index.js?");
+
+/***/ }),
+
+/***/ "./src/views/AlarmManagerView/index.js":
+/*!*********************************************!*\
+  !*** ./src/views/AlarmManagerView/index.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ AlarmManagerView; }\n/* harmony export */ });\n/* harmony import */ var _library__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../library */ \"./src/library/index.js\");\n/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ \"./src/constants/index.js\");\n\r\n\r\n\r\nfunction AlarmManagerView(viewModel, managerContainer) {\r\n  this.viewModel = viewModel;\r\n  this.observer = new _library__WEBPACK_IMPORTED_MODULE_0__.Observer();\r\n  this.managerContainer = managerContainer;\r\n  this.eventDelegator = null;\r\n\r\n  this.observer.observe(this, this.viewModel);\r\n  this.renderAlarmManager();\r\n}\r\n\r\nAlarmManagerView.prototype = {\r\n  renderAlarmManager: function () {\r\n    this.renderStandardTimeContainer();\r\n    // this.renderAlarmInputContainer();\r\n    // this.renderAlarmListContainer();\r\n    // this.renderAlarmMessagesCotainer();\r\n  },\r\n\r\n  renderStandardTimeContainer: function () {\r\n    var standardTimeContainerDivTag = this.createElementWithAttributes('div', [\r\n      {\r\n        name: 'id',\r\n        value: 'alarm-standard-time-container',\r\n      },\r\n    ]);\r\n    var statndardHeadingPtag = document.createElement('p');\r\n    var standardTimePtag = this.createElementWithAttributes('p', [\r\n      {\r\n        name: 'id',\r\n        value: 'alarm-standard-time',\r\n      },\r\n    ]);\r\n\r\n    statndardHeadingPtag.innerHTML = _constants__WEBPACK_IMPORTED_MODULE_1__.messages.STANDARD_HEADING;\r\n    standardTimePtag.innerHTML = 'test';\r\n\r\n    this.appendChildrenToElement(standardTimeContainerDivTag, [\r\n      statndardHeadingPtag,\r\n      standardTimePtag,\r\n    ]);\r\n\r\n    this.managerContainer.append(standardTimeContainerDivTag);\r\n  },\r\n\r\n  renderAlarmInputContainer: function () {\r\n    var alarmInputContainerDivTag = this.createElementWithAttributes('div', [\r\n      { name: 'id', value: 'alarm-input-container' },\r\n    ]);\r\n  },\r\n\r\n  renderAlarmListContainer: function () {},\r\n\r\n  renderAlarmMessagesCotainer: function () {},\r\n\r\n  createElementWithAttributes: function (tagName, attributesObjects) {\r\n    var element = document.createElement(tagName);\r\n\r\n    for (var i = 0; i < attributesObjects.length; i++) {\r\n      element.setAttribute(\r\n        attributesObjects[i].name,\r\n        attributesObjects[i].value\r\n      );\r\n    }\r\n\r\n    return element;\r\n  },\r\n\r\n  appendChildrenToElement: function (element, children) {\r\n    for (var i = 0; i < children.length; i++) {\r\n      element.appendChild(children[i]);\r\n    }\r\n  },\r\n};\r\n\n\n//# sourceURL=webpack://alarm_web/./src/views/AlarmManagerView/index.js?");
+
+/***/ }),
+
+/***/ "./src/views/index.js":
+/*!****************************!*\
+  !*** ./src/views/index.js ***!
+  \****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AlarmManagerView\": function() { return /* reexport safe */ _AlarmManagerView__WEBPACK_IMPORTED_MODULE_0__.default; }\n/* harmony export */ });\n/* harmony import */ var _AlarmManagerView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AlarmManagerView */ \"./src/views/AlarmManagerView/index.js\");\n\r\n\r\n\r\n\n\n//# sourceURL=webpack://alarm_web/./src/views/index.js?");
 
 /***/ })
 
