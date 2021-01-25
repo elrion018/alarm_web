@@ -17,7 +17,7 @@ AlarmManagerView.prototype = {
   renderAlarmManager: function () {
     this.renderStandardTimeContainer();
     this.renderAlarmInputContainer();
-    // this.renderAlarmListContainer();
+    this.renderAlarmListContainer();
     // this.renderAlarmMessagesCotainer();
   },
 
@@ -66,7 +66,23 @@ AlarmManagerView.prototype = {
     });
   },
 
-  renderAlarmListContainer: function () {},
+  renderAlarmListContainer: function () {
+    var alarmListContainerDivTag = this.createElementWithAttributes('div', [
+      { name: 'id', value: 'alarm-list-container' },
+    ]);
+    var alarmListHeadingPtag = document.createElement('p');
+    alarmListHeadingPtag.innerHTML = messages.ALARM_LIST;
+
+    this.appendChildrenToElement(alarmListContainerDivTag, [
+      alarmListHeadingPtag,
+    ]);
+
+    this.managerContainer.appendChild(alarmListContainerDivTag);
+  },
+
+  // getAlarmListTags: function() {
+
+  // },
 
   renderAlarmMessagesCotainer: function () {},
 

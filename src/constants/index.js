@@ -10,6 +10,7 @@ var messages = {
   ALARM_MODE_EMERGENCY: '긴급',
   CONTENT: '내용',
   TIME_SETTING: '시간 설정',
+  ALARM_LIST: '알람 목록',
 };
 
 export { messages };
