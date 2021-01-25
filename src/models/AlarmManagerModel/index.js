@@ -8,21 +8,34 @@ export default function AlarmManagerModel() {
   this.activeAlarmArray = [];
   this.publisher = new Publisher();
   this._timer1 = null;
-  var that = this;
 
-  setTimer();
+  this.setTimer();
+  this.loadDataFromLocalStorage();
+}
 
-  function setTimer() {
-    that._timer1 = setInterval(function () {
+AlarmManagerModel.prototype = {
+  setTimer: function () {
+    var that = this;
+    this._timer1 = setInterval(function () {
       that.passStandardTime();
     }, 1000);
-  }
+  },
 
-  function publish(callback) {
-    that.publisher.publish(callback);
-  }
+  saveDataToLocalStorage: function (key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+  },
 
-  function isSameTime(standardTime, alarmTime) {
+  loadDataFromLocalStorage: function () {
+    if ('alarmArray' in localStorage) {
+      this.setAlarmArray(JSON.parse(localStorage.getItem('alarmArray')));
+    }
+  },
+
+  publish: function (callback) {
+    this.publisher.publish(callback);
+  },
+
+  isSameTime: function (standardTime, alarmTime) {
     if (standardTime.getFullYear() !== alarmTime.getFullYear()) {
       return false;
     }
@@ -48,29 +61,23 @@ export default function AlarmManagerModel() {
     }
 
     return true;
-  }
+  },
 
-  this.getActiveAlarmArray = function () {
-    return this.activeAlarmArray;
-  };
+  getStandardTime: function () {
+    return this.standardTime;
+  },
 
-  this.searchActiveAlarms = function (standardTime) {
-    this.activeAlarmArray = [];
+  setStandardTime: function (time) {
+    clearInterval(this._timer1);
+    this.standardTime = time;
+    this.setTimer();
 
-    for (var i = 0; i < this.alarmArray.length; i++) {
-      if (isSameTime(standardTime, this.alarmArray[i].alarmTime)) {
-        this.activeAlarmArray.push(this.alarmArray[i]);
-      }
-    }
+    return this.standardTime;
+  },
 
-    publish('getActiveAlarmArray');
-
-    return this.activeAlarmArray;
-  };
-
-  this.passStandardTime = function () {
+  passStandardTime: function () {
     var prevMinute = this.standardTime.getMinutes();
-
+    console.log('passStandardTime');
     this.standardTime.setMilliseconds(
       this.standardTime.getMilliseconds() + 1000
     );
@@ -81,53 +88,83 @@ export default function AlarmManagerModel() {
     }
 
     return this.standardTime;
-  };
+  },
 
-  this.getStandardTime = function () {
-    return this.standardTime;
-  };
-
-  this.setStandardTime = function (time) {
-    clearInterval(that._timer1);
-    this.standardTime = time;
-    setTimer();
-
-    return this.standardTime;
-  };
-
-  this.getAlarmArray = function () {
+  getAlarmArray: function () {
     return this.alarmArray;
-  };
+  },
 
-  this.setAlarmArray = function (array) {
-    this.alarmArray = array;
+  setAlarmArray: function (array) {
+    var loadedAlarmArray = [];
+
+    for (var i = 0; i < array.length; i++) {
+      loadedAlarmArray.push(
+        new Alarm({
+          alarmTime: new Date(array[i].alarmTime),
+          clockMode: array[i].clockMode,
+          alarmMode: array[i].alarmMode,
+          alarmContent: array[i].alarmContent,
+          alarmOnOffState: array[i].alarmOnOffState,
+        })
+      );
+    }
+
+    this.alarmArray = loadedAlarmArray;
 
     if (this.alarmArray.length >= 2) {
       this.alarmArray.sort(compareWithTime);
     }
 
-    return this.alarmArray;
-  };
+    this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
-  this.addAlarmToAlarmArray = function (alarmObject) {
+    console.log(this.alarmArray, 'setAlarmArray');
+
+    return this.alarmArray;
+  },
+
+  addAlarmToAlarmArray: function (alarmObject) {
+    console.log('addAlarmToAlarmArray');
     this.alarmArray.push(new Alarm(alarmObject));
 
     if (this.alarmArray.length >= 2) {
       this.alarmArray.sort(compareWithTime);
     }
 
-    return this.alarmArray;
-  };
+    this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
-  this.removeAlarmFromAlarmArray = function (alarmIndex) {
+    return this.alarmArray;
+  },
+
+  removeAlarmFromAlarmArray: function (alarmIndex) {
     this.alarmArray.splice(alarmIndex, 1);
 
-    return this.alarmArray;
-  };
+    this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
-  this.setOnOffStateOfAlarm = function (alarmIndex) {
+    return this.alarmArray;
+  },
+
+  getActiveAlarmArray: function () {
+    return this.activeAlarmArray;
+  },
+
+  searchActiveAlarms: function (standardTime) {
+    this.activeAlarmArray = [];
+
+    for (var i = 0; i < this.alarmArray.length; i++) {
+      if (this.isSameTime(standardTime, this.alarmArray[i].alarmTime)) {
+        this.activeAlarmArray.push(this.alarmArray[i]);
+      }
+    }
+
+    this.publish('getActiveAlarmArray');
+
+    return this.activeAlarmArray;
+  },
+
+  setOnOffStateOfAlarm: function (alarmIndex) {
+    // saveDataToLocalStorage('alarmArray', this.alarmArray)
     return this.alarmArray[alarmIndex].setAlarmOnOffState(
       !this.alarmArray[alarmIndex].getAlarmOnOffState()
     );
-  };
-}
+  },
+};
