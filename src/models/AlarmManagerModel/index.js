@@ -1,5 +1,4 @@
 import { Alarm } from '../../models';
-import { compareWithTime } from '../../utils';
 import { Publisher } from '../../library';
 
 export default function AlarmManagerModel() {
@@ -30,9 +29,6 @@ AlarmManagerModel.prototype = {
     if (localStorage['alarmArray']) {
       this.setAlarmArray(JSON.parse(localStorage.getItem('alarmArray')));
     }
-    // if ('alarmArray' in localStorage) {
-    //   this.setAlarmArray(JSON.parse(localStorage.getItem('alarmArray')));
-    // }
   },
 
   publish: function (callback) {
@@ -83,9 +79,9 @@ AlarmManagerModel.prototype = {
 
     this.alarmArray = loadedAlarmArray;
 
-    if (this.alarmArray.length >= 2) {
-      this.alarmArray.sort(compareWithTime);
-    }
+    this.alarmArray.sort(function (a, b) {
+      return (a.alarmTime || 0) - (b.alarmTime || 0);
+    });
 
     this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
@@ -98,9 +94,9 @@ AlarmManagerModel.prototype = {
     console.log('addAlarmToAlarmArray');
     this.alarmArray.push(new Alarm(alarmObject));
 
-    if (this.alarmArray.length >= 2) {
-      this.alarmArray.sort(compareWithTime);
-    }
+    this.alarmArray.sort(function (a, b) {
+      return (a.alarmTime || 0) - (b.alarmTime || 0);
+    });
 
     this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
