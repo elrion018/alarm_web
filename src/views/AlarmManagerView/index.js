@@ -64,25 +64,49 @@ AlarmManagerView.prototype = {
 
     this.appendChildrenToElement(
       standardTimeContainerDivTag,
-      this.getStandardTimePtags()
+      this.getStandardTimePtags().concat(
+        this.getStandardTimeSetButton().concat(this.getStandardTimePickers())
+      )
     );
 
     this.managerContainer.appendChild(standardTimeContainerDivTag);
+  },
+
+  getStandardTimePickers: function () {
+    return [
+      this.createElementWithAttributes('input', [
+        {
+          name: 'id',
+          value: 'alarm-input-date-picker',
+        },
+        {
+          name: 'placeholder',
+          value: '기준 시간의 날짜를 설정하세요',
+        },
+      ]),
+      this.createElementWithAttributes('input', [
+        {
+          name: 'id',
+          value: 'alarm-input-time-picker',
+        },
+        {
+          name: 'placeholder',
+          value: '기준 시간의 시간을 설정하세요',
+        },
+      ]),
+    ];
   },
 
   renderAlarmInput: function () {
     var alarmInputContainerDivTag = this.managerContainer.querySelector(
       '#alarm-input-container'
     );
-    var alarmInputHeadingPtag = document.createElement('p');
-
-    alarmInputHeadingPtag.innerHTML = messages.ALARM_INPUT_HEADING;
 
     this.appendChildrenToElement(
       alarmInputContainerDivTag,
-      [alarmInputHeadingPtag]
+      [this.getPtag(messages.ALARM_INPUT_HEADING)]
         .concat(this.getAlarmInputClockModeTags())
-        .concat(this.getAlarmTimeSettingTags())
+        .concat(this.getAlarmInputTimeSettingTags())
         .concat(this.getAlarmInputAlarmModeTags())
         .concat(this.getAlarmInputContentTags())
         .concat(this.getAlarmInputAddButton())
@@ -136,18 +160,23 @@ AlarmManagerView.prototype = {
   },
 
   getStandardTimePtags: function () {
-    var statndardHeadingPtag = document.createElement('p');
-    var standardTimePtag = this.createElementWithAttributes('p', [
-      {
-        name: 'id',
-        value: 'alarm-standard-time',
-      },
-    ]);
+    return [
+      this.getPtag(messages.STANDARD_HEADING),
+      this.getPtag('test', 'alarm-standard-time'),
+    ];
+  },
 
-    statndardHeadingPtag.innerHTML = messages.STANDARD_HEADING;
-    standardTimePtag.innerHTML = 'test';
-
-    return [statndardHeadingPtag, standardTimePtag];
+  getStandardTimeSetButton: function () {
+    return [
+      this.createElementWithAttributes('button', [
+        {
+          name: 'id',
+          value: 'alarm-standard-time-set-button',
+        },
+        { name: 'innerHTML', value: '현재 시간(기준 날짜) 바꾸기' },
+        { anme: 'data-action', value: 'setStandardTime' },
+      ]),
+    ];
   },
 
   getClockModeOptions: function () {
@@ -212,43 +241,36 @@ AlarmManagerView.prototype = {
   },
 
   getAlarmInputClockModeTags: function () {
-    var alarmInputClockModePtag = document.createElement('p');
     var alarmInputClockModeSelectTag = this.createElementWithAttributes(
       'select',
       [{ name: 'id', value: 'alarm-input-clock-mode-select' }]
     );
     var clockModeOptions = this.getClockModeOptions();
 
-    alarmInputClockModePtag.innerHTML = messages.CLOCK_MODE;
-
     this.appendChildrenToElement(
       alarmInputClockModeSelectTag,
       clockModeOptions
     );
 
-    return [alarmInputClockModePtag, alarmInputClockModeSelectTag];
+    return [this.getPtag(messages.CLOCK_MODE), alarmInputClockModeSelectTag];
   },
 
   getAlarmInputAlarmModeTags: function () {
-    var alarmInputAlarmModePtag = document.createElement('p');
     var alarmInputAlarmModeSelectTag = this.createElementWithAttributes(
       'select',
       [{ name: 'id', value: 'alarm-input-alarm-mode-select' }]
     );
     var alarmModeOptions = this.getAlarmModeOptions();
 
-    alarmInputAlarmModePtag.innerHTML = messages.ALARM_MODE;
-
     this.appendChildrenToElement(
       alarmInputAlarmModeSelectTag,
       alarmModeOptions
     );
 
-    return [alarmInputAlarmModePtag, alarmInputAlarmModeSelectTag];
+    return [this.getPtag(messages.ALARM_MODE), alarmInputAlarmModeSelectTag];
   },
 
   getAlarmInputContentTags: function () {
-    var alarmInputContentPtag = document.createElement('p');
     var alarmInputContentInputTag = this.createElementWithAttributes('input', [
       {
         name: 'id',
@@ -257,9 +279,7 @@ AlarmManagerView.prototype = {
       { name: 'type', value: 'text' },
     ]);
 
-    alarmInputContentPtag.innerHTML = messages.CONTENT;
-
-    return [alarmInputContentPtag, alarmInputContentInputTag];
+    return [this.getPtag(messages.CONTENT), alarmInputContentInputTag];
   },
 
   getAlarmInputAddButton: function () {
@@ -275,37 +295,56 @@ AlarmManagerView.prototype = {
     return [alarmInputAddButtonTag];
   },
 
-  getAlarmTimeSettingTags: function () {
-    var alarmInputTimeSettingTag = document.createElement('p');
+  getAlarmInputTimeSettingTags: function () {
+    return [this.getPtag(messages.TIME_SETTING)].concat(
+      this.getAlarmInputDatePickers()
+    );
+  },
 
-    alarmInputTimeSettingTag.innerHTML = messages.TIME_SETTING;
-
-    var alarmInputDatePicker = this.createElementWithAttributes('input', [
-      {
-        name: 'id',
-        value: 'alarm-input-date-picker',
-      },
-      {
-        name: 'placeholder',
-        value: '날짜를 설정하세요',
-      },
-    ]);
-
-    var alarmInputTimePicker = this.createElementWithAttributes('input', [
-      {
-        name: 'id',
-        value: 'alarm-input-time-picker',
-      },
-      {
-        name: 'placeholder',
-        value: '시간을 설정하세요',
-      },
-    ]);
-
+  getAlarmInputDatePickers: function () {
     return [
-      alarmInputTimeSettingTag,
-      alarmInputDatePicker,
-      alarmInputTimePicker,
+      this.createElementWithAttributes('input', [
+        {
+          name: 'id',
+          value: 'alarm-input-date-picker',
+        },
+        {
+          name: 'placeholder',
+          value: '알람을 원하는 날짜를 설정하세요',
+        },
+      ]),
+      this.createElementWithAttributes('input', [
+        {
+          name: 'id',
+          value: 'alarm-input-time-picker',
+        },
+        {
+          name: 'placeholder',
+          value: '알람을 원하는 시간을 설정하세요',
+        },
+      ]),
     ];
+  },
+
+  getPtag: function (text, idValue) {
+    var pTag;
+
+    if (idValue) {
+      pTag = this.createElementWithAttributes('p', [
+        {
+          name: 'id',
+          value: idValue,
+        },
+      ]);
+
+      pTag.innerHTML = text;
+
+      return pTag;
+    }
+
+    pTag = document.createElement('p');
+    pTag.innerHTML = text;
+
+    return pTag;
   },
 };
