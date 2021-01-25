@@ -9,7 +9,7 @@ export default function AlarmManagerModel() {
   this._timer1 = null;
 
   this.setTimer();
-  this.loadDataFromLocalStorage();
+  // this.loadDataFromLocalStorage();
 }
 
 AlarmManagerModel.prototype = {
@@ -83,7 +83,7 @@ AlarmManagerModel.prototype = {
       return (a.alarmTime || 0) - (b.alarmTime || 0);
     });
 
-    this.saveDataToLocalStorage('alarmArray', this.alarmArray);
+    // this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
     console.log(this.alarmArray, 'setAlarmArray');
 
@@ -98,7 +98,7 @@ AlarmManagerModel.prototype = {
       return (a.alarmTime || 0) - (b.alarmTime || 0);
     });
 
-    this.saveDataToLocalStorage('alarmArray', this.alarmArray);
+    // this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
     return this.alarmArray;
   },
@@ -106,7 +106,7 @@ AlarmManagerModel.prototype = {
   removeAlarmFromAlarmArray: function (alarmIndex) {
     this.alarmArray.splice(alarmIndex, 1);
 
-    this.saveDataToLocalStorage('alarmArray', this.alarmArray);
+    // this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
     return this.alarmArray;
   },
