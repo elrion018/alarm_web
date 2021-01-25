@@ -30,7 +30,7 @@ var managerViewModel = new AlarmManagerViewModel(managerModel);
 
 console.log(
   managerViewModel.addAlarmToAlarmArray({
-    alarmTime: new Date('2021-01-25T01:37:00'),
+    alarmTime: new Date('2021-01-25T18:53:30'),
     clockMode: 'test',
     alarmMode: 'test',
     alarmContent: 'test',

@@ -26,41 +26,17 @@ AlarmManagerModel.prototype = {
   },
 
   loadDataFromLocalStorage: function () {
-    if ('alarmArray' in localStorage) {
+    console.log(localStorage);
+    if (localStorage['alarmArray']) {
       this.setAlarmArray(JSON.parse(localStorage.getItem('alarmArray')));
     }
+    // if ('alarmArray' in localStorage) {
+    //   this.setAlarmArray(JSON.parse(localStorage.getItem('alarmArray')));
+    // }
   },
 
   publish: function (callback) {
     this.publisher.publish(callback);
-  },
-
-  isSameTime: function (standardTime, alarmTime) {
-    if (standardTime.getFullYear() !== alarmTime.getFullYear()) {
-      return false;
-    }
-
-    if (standardTime.getMonth() !== alarmTime.getMonth()) {
-      return false;
-    }
-
-    if (standardTime.getDate() !== alarmTime.getDate()) {
-      return false;
-    }
-
-    if (standardTime.getHours() !== alarmTime.getHours()) {
-      return false;
-    }
-
-    if (standardTime.getMinutes() !== alarmTime.getMinutes()) {
-      return false;
-    }
-
-    if (standardTime.getSeconds() !== alarmTime.getSeconds()) {
-      return false;
-    }
-
-    return true;
   },
 
   getStandardTime: function () {
@@ -76,16 +52,12 @@ AlarmManagerModel.prototype = {
   },
 
   passStandardTime: function () {
-    var prevMinute = this.standardTime.getMinutes();
     console.log('passStandardTime');
     this.standardTime.setMilliseconds(
       this.standardTime.getMilliseconds() + 1000
     );
 
-    var nowMinute = this.standardTime.getMinutes();
-    if (prevMinute !== nowMinute) {
-      this.searchActiveAlarms(this.standardTime);
-    }
+    this.searchActiveAlarms(this.standardTime);
 
     return this.standardTime;
   },
@@ -151,7 +123,7 @@ AlarmManagerModel.prototype = {
     this.activeAlarmArray = [];
 
     for (var i = 0; i < this.alarmArray.length; i++) {
-      if (this.isSameTime(standardTime, this.alarmArray[i].alarmTime)) {
+      if (standardTime.toString() === this.alarmArray[i].alarmTime.toString()) {
         this.activeAlarmArray.push(this.alarmArray[i]);
       }
     }
