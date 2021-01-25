@@ -15,19 +15,52 @@ export default function AlarmManagerView(viewModel, managerContainer) {
 
 AlarmManagerView.prototype = {
   renderAlarmManager: function () {
-    this.renderStandardTimeContainer();
-    this.renderAlarmInputContainer();
-    this.renderAlarmListContainer();
+    this.renderContainers();
+    this.renderStandardTime();
+    this.renderAlarmInput();
+    this.renderAlarmList();
     // this.renderAlarmMessagesCotainer();
   },
 
-  renderStandardTimeContainer: function () {
-    var standardTimeContainerDivTag = this.createElementWithAttributes('div', [
-      {
-        name: 'id',
-        value: 'alarm-standard-time-container',
-      },
-    ]);
+  renderContainers: function () {
+    this.managerContainer.appendChild(
+      this.createElementWithAttributes('div', [
+        {
+          name: 'id',
+          value: 'alarm-standard-time-container',
+        },
+      ])
+    );
+    this.managerContainer.appendChild(
+      this.createElementWithAttributes('div', [
+        {
+          name: 'id',
+          value: 'alarm-input-container',
+        },
+      ])
+    );
+    this.managerContainer.appendChild(
+      this.createElementWithAttributes('div', [
+        {
+          name: 'id',
+          value: 'alarm-list-container',
+        },
+      ])
+    );
+    this.managerContainer.appendChild(
+      this.createElementWithAttributes('div', [
+        {
+          name: 'id',
+          value: 'alarm-message-container',
+        },
+      ])
+    );
+  },
+
+  renderStandardTime: function () {
+    var standardTimeContainerDivTag = this.managerContainer.querySelector(
+      '#alarm-standard-time-container'
+    );
 
     this.appendChildrenToElement(
       standardTimeContainerDivTag,
@@ -37,10 +70,10 @@ AlarmManagerView.prototype = {
     this.managerContainer.appendChild(standardTimeContainerDivTag);
   },
 
-  renderAlarmInputContainer: function () {
-    var alarmInputContainerDivTag = this.createElementWithAttributes('div', [
-      { name: 'id', value: 'alarm-input-container' },
-    ]);
+  renderAlarmInput: function () {
+    var alarmInputContainerDivTag = this.managerContainer.querySelector(
+      '#alarm-input-container'
+    );
     var alarmInputHeadingPtag = document.createElement('p');
 
     alarmInputHeadingPtag.innerHTML = messages.ALARM_INPUT_HEADING;
@@ -66,10 +99,10 @@ AlarmManagerView.prototype = {
     });
   },
 
-  renderAlarmListContainer: function () {
-    var alarmListContainerDivTag = this.createElementWithAttributes('div', [
-      { name: 'id', value: 'alarm-list-container' },
-    ]);
+  renderAlarmList: function () {
+    var alarmListContainerDivTag = this.managerContainer.querySelector(
+      '#alarm-list-container'
+    );
     var alarmListHeadingPtag = document.createElement('p');
     alarmListHeadingPtag.innerHTML = messages.ALARM_LIST;
 
