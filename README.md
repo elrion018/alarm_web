@@ -1,8 +1,68 @@
 # alarm_web
 
-## 코드 컨벤션
+## 실행 방법
+1. npm install로 의존성있는 라이브러리를 모두 설치해줍니다.(모듈 번들링을 위한 webpack, 표준 API 폴리필들, 표준 API 폴리필을 트랜스파일링하기 위한 babel, datepicker를 이용하기 위한 flatpickr이 있습니다.)
 
-- NHN FE development Lab에서 제공하는 [코드 컨벤션](https://ui.toast.com/fe-guide/ko_CODING-CONVENTION)을 적용한다.
+2. npm run build 스크립트를 실행하여 모듈 번들링을 해줍니다. 그러면 dist 폴더에 bundle.js 파일로 js 코드들이 번들링됩니다.
+
+3. 프로젝트 root에 있는 index.js를 에버그린, ie 등의 브라우저로 실행할 수 있습니다.
+
+## 모듈 구조
+
+웹 구성에 의미를 가지는 파일들만 출력하였습니다.
+
+|   index.html
+|   package-lock.json
+|   package.json
+|   README.md
+|   webpack.config.js
+|   
+\---src
+    |   index.css
+    |   index.js
+    |   
+    +---constants
+    |       index.js
+    |       
+    +---eventDelegators
+    |   |   index.js
+    |   |   
+    |   \---AlarmManagerViewEventDelegator
+    |           index.js
+    |           
+    +---library
+    |   |   index.js
+    |   |   
+    |   +---EventDelegator
+    |   |       index.js
+    |   |       
+    |   +---Observer
+    |   |       index.js
+    |   |       
+    |   \---Publisher
+    |           index.js
+    |           
+    +---models
+    |   |   index.js
+    |   |   
+    |   +---Alarm
+    |   |       index.js
+    |   |       
+    |   \---AlarmManagerModel
+    |           index.js
+    |           
+    +---viewModels
+    |   |   index.js
+    |   |   
+    |   \---AlarmManagerViewModel
+    |           index.js
+    |           
+    \---views
+        |   index.js
+        |   
+        \---AlarmManagerView
+                index.js
+                
 
 ## 기능 목록
 
@@ -73,4 +133,22 @@
     - 알람 내용을 반환할 수 있도록 한다. (getter)
     - 알람 on/off 상태를 설정할 수 있도록 한다. (setter)
     - 알람 on/off 상태를 반환할 수 있도록 한다. (getter)
+
+## 기타 참고사항
+
+
+- ie 10, 에버그린 브라우저에서 정상 작동을 확인하였습니다.
+- 처음 babel을 이용한 폴리필 적용 가능 여부에 확신이 들지않아 모듈 시스템을 제외하면 es5 문법을 중심으로 코드를 짰습니다.
+- 종료 전 데이터 상태를 저장하는 부가 기능을 제공하려 했으나 ie 9이상 버전부터 local 브라우저에서 실행되는 웹의 경우 localStorage를 지원하지 않았습니다.
+그래서 현재 주석처리를 해두었습니다.
+- 알람들을 추가, 삭제, 탐색하는데 있어 heap 자료구조를 적용해도 좋아보입니다.
+- 비동기 프로그래밍을 다루며, 이벤트 루프와 이벤트 큐에 대해 더 공부해볼 수 있었습니다.
+- 반복되는 코드를 줄이고 재사용성을 위해 프로토타입의 특징을 활용하여 최대한 함수화와 모듈화를 진행하였습니다.
+- reactive한 웹을 구현하는데 유리한 MVVM 패턴을 적용하였고 시간 흐름, 알람 작동을 자동적으로 렌더링하기 위해 Observer 패턴을 사용하였습니다.
+- NHN FE development Lab에서 제공하는 [코드 컨벤션](https://ui.toast.com/fe-guide/ko_CODING-CONVENTION)을 따릅니다.
+
+## 맺음말
+
+- 카카오 커머스 과제 덕분에 ES5, ES6와 같은 스펙과 자바스크립트 자체에 대한 이해도를 높일 수 있었습니다. 
+- 인터뷰를 진행하면서 관련 이야기를 나눌 수 있는 기회가 꼭 생겼으면 좋겠습니다. 감사합니다.
 
