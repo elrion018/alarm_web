@@ -18,7 +18,6 @@ AlarmManagerViewModel.prototype.publish = function (callback) {
 
 AlarmManagerViewModel.prototype.getActiveAlarmArray = function () {
   this.activeAlarmArray = this.model.getActiveAlarmArray();
-  console.log(this.activeAlarmArray, 'getActiveAlarmArray');
 
   return this.activeAlarmArray;
 };
@@ -47,7 +46,7 @@ AlarmManagerViewModel.prototype.setStandardTimeInModel = function (date, time) {
 
 AlarmManagerViewModel.prototype.setStandardTimeInViewModel = function () {
   this.standardTime = this.model.getStandardTime();
-  // console.log(this.standardTime);
+
   this.publish('rerenderStandardTimeString');
 };
 
@@ -84,12 +83,10 @@ AlarmManagerViewModel.prototype.setOnOffStateOfAlarm = function (alarmIndex) {
 AlarmManagerViewModel.prototype.setAlarmArrayInViewModel = function () {
   this.alarmArray = this.model.getAlarmArray();
 
-  console.log(this.alarmArray, 'setAlarmArrayInViewModel');
   this.publish('rerenderAlarmList');
 };
 
 AlarmManagerViewModel.prototype.validationStandardTime = function (date, time) {
-  console.log(date, time);
   if (date.length === 0 || time.length === 0) {
     return messages.ALERT_FOT_EMPTY_DATE_TIME;
   }

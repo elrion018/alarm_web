@@ -38,7 +38,6 @@ AlarmManagerView.prototype.renderContainers = function () {
 };
 
 AlarmManagerView.prototype.renderStandardTime = function () {
-  console.log('renderStandardTime');
   var standardTimeContainerDivTag = this.managerContainer.querySelector(
     '#alarm-standard-time-container'
   );
