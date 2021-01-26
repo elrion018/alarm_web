@@ -164,30 +164,26 @@ AlarmManagerView.prototype = {
   },
 
   getAlarmInputClockModeTags: function () {
-    var alarmInputClockModeSelectTag = this.createElementWithAttributes(
-      'select',
-      [{ name: 'id', value: 'alarm-input-clock-mode-select' }]
+    var alarmInputClockModeSelectTag = this.getSelectTag(
+      'alarm-input-clock-mode-select'
     );
-    var clockModeOptions = this.getClockModeOptions();
 
     this.appendChildrenToElement(
       alarmInputClockModeSelectTag,
-      clockModeOptions
+      this.getClockModeOptions()
     );
 
     return [this.getPtag(messages.CLOCK_MODE), alarmInputClockModeSelectTag];
   },
 
   getAlarmInputAlarmModeTags: function () {
-    var alarmInputAlarmModeSelectTag = this.createElementWithAttributes(
-      'select',
-      [{ name: 'id', value: 'alarm-input-alarm-mode-select' }]
+    var alarmInputAlarmModeSelectTag = this.getSelectTag(
+      'alarm-input-alarm-mode-select'
     );
-    var alarmModeOptions = this.getAlarmModeOptions();
 
     this.appendChildrenToElement(
       alarmInputAlarmModeSelectTag,
-      alarmModeOptions
+      this.getAlarmModeOptions()
     );
 
     return [this.getPtag(messages.ALARM_MODE), alarmInputAlarmModeSelectTag];
@@ -305,5 +301,15 @@ AlarmManagerView.prototype = {
     }
 
     return this.createElementWithAttributes('option', attributesObjects);
+  },
+
+  getSelectTag: function (idValue) {
+    var attributesObjects = [];
+
+    if (idValue) {
+      attributesObjects.push({ name: 'id', value: idValue });
+    }
+
+    return this.createElementWithAttributes('select', attributesObjects);
   },
 };
