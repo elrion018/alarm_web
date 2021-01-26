@@ -53,6 +53,8 @@ AlarmManagerModel.prototype = {
       this.standardTime.getMilliseconds() + 1000
     );
 
+    this.publish('setStandardTimeInViewModel');
+
     this.searchActiveAlarms(this.standardTime);
 
     return this.standardTime;

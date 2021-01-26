@@ -36,13 +36,22 @@ AlarmManagerView.prototype.renderContainers = function () {
 };
 
 AlarmManagerView.prototype.renderStandardTime = function () {
+  console.log('renderStandardTime');
   var standardTimeContainerDivTag = this.managerContainer.querySelector(
     '#alarm-standard-time-container'
+  );
+  var standardTimeStringContainer = this.getDivTag(
+    'alarm-standard-time-string-container'
+  );
+
+  this.appendChildrenToElement(
+    standardTimeStringContainer,
+    this.getStandardTimePtags()
   );
 
   this.appendChildrenToElement(
     standardTimeContainerDivTag,
-    this.getStandardTimePtags()
+    [standardTimeStringContainer]
       .concat(
         this.getButtonTag(
           '현재 시간(기준 시간) 바꾸기',
@@ -53,7 +62,6 @@ AlarmManagerView.prototype.renderStandardTime = function () {
       .concat(this.getStandardTimePickers())
   );
 
-  this.managerContainer.appendChild(standardTimeContainerDivTag);
   flatpickr('#alarm-standard-time-date-picker', {});
   flatpickr('#alarm-standard-time-time-picker', {
     enableTime: true,
@@ -61,6 +69,16 @@ AlarmManagerView.prototype.renderStandardTime = function () {
     dateFormat: 'H:i',
     time_24hr: true,
   });
+};
+
+AlarmManagerView.prototype.rerenderStandardTimeString = function () {
+  this.clearContainer('alarm-standard-time-string-container');
+  this.appendChildrenToElement(
+    this.managerContainer.querySelector(
+      '#alarm-standard-time-string-container'
+    ),
+    this.getStandardTimePtags()
+  );
 };
 
 AlarmManagerView.prototype.getStandardTimePickers = function () {
@@ -95,8 +113,6 @@ AlarmManagerView.prototype.renderAlarmInput = function () {
       )
   );
 
-  this.managerContainer.appendChild(alarmInputContainerDivTag);
-
   flatpickr('#alarm-input-date-picker', {});
   flatpickr('#alarm-input-time-picker', {
     enableTime: true,
@@ -116,8 +132,6 @@ AlarmManagerView.prototype.renderAlarmList = function () {
   this.appendChildrenToElement(alarmListContainerDivTag, [
     alarmListHeadingPtag,
   ]);
-
-  this.managerContainer.appendChild(alarmListContainerDivTag);
 };
 
 AlarmManagerView.prototype.getAlarmListTags = function () {};
@@ -127,7 +141,7 @@ AlarmManagerView.prototype.renderAlarmMessagesCotainer = function () {};
 AlarmManagerView.prototype.getStandardTimePtags = function () {
   return [
     this.getPtag(messages.STANDARD_HEADING),
-    this.getPtag('test', 'alarm-standard-time'),
+    this.getPtag(this.viewModel.getStandardTime(), 'alarm-standard-time'),
   ];
 };
 
@@ -330,4 +344,8 @@ AlarmManagerView.prototype.getSelectTag = function (idValue) {
   }
 
   return this.createElementWithAttributes('select', attributesObjects);
+};
+
+AlarmManagerView.prototype.clearContainer = function (containerId) {
+  this.managerContainer.querySelector('#' + containerId).innerHTML = '';
 };

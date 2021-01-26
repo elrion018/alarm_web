@@ -2,6 +2,7 @@ import { Observer, Publisher } from '../../library';
 
 export default function AlarmManagerViewModel(model) {
   this.model = model;
+  this.standardTime = this.model.getStandardTime();
   this.activeAlarmArray = [];
   this.observer = new Observer();
   this.publisher = new Publisher();
@@ -10,6 +11,10 @@ export default function AlarmManagerViewModel(model) {
 }
 
 AlarmManagerViewModel.prototype = {
+  publish: function (callback) {
+    this.publisher.publish(callback);
+  },
+
   getActiveAlarmArray: function () {
     this.activeAlarmArray = this.model.getActiveAlarmArray();
     console.log(this.activeAlarmArray, 'getActiveAlarmArray');
@@ -18,11 +23,17 @@ AlarmManagerViewModel.prototype = {
   },
 
   getStandardTime: function () {
-    return this.model.getStandardTime();
+    return this.standardTime;
   },
 
-  setStandardTime: function (time) {
+  setStandardTimeInModel: function (time) {
     return this.model.setStandardTime(time);
+  },
+
+  setStandardTimeInViewModel: function (time) {
+    this.standardTime = this.model.getStandardTime();
+    console.log(this.standardTime);
+    this.publish('rerenderStandardTimeString');
   },
 
   getAlarmArray: function () {
