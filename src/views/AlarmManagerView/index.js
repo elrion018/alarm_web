@@ -23,38 +23,26 @@ AlarmManagerView.prototype = {
   },
 
   renderContainers: function () {
-    this.managerContainer.appendChild(
-      this.createElementWithAttributes('div', [
-        {
-          name: 'id',
-          value: 'alarm-standard-time-container',
-        },
-      ])
-    );
-    this.managerContainer.appendChild(
-      this.createElementWithAttributes('div', [
-        {
-          name: 'id',
-          value: 'alarm-input-container',
-        },
-      ])
-    );
-    this.managerContainer.appendChild(
-      this.createElementWithAttributes('div', [
-        {
-          name: 'id',
-          value: 'alarm-list-container',
-        },
-      ])
-    );
-    this.managerContainer.appendChild(
-      this.createElementWithAttributes('div', [
-        {
-          name: 'id',
-          value: 'alarm-message-container',
-        },
-      ])
-    );
+    var containers = [
+      this.getDivTag('alarm-standard-time-container'),
+      this.getDivTag('alarm-input-container'),
+      this.getDivTag('alarm-list-container'),
+      this.getDivTag('alarm-message-container'),
+    ];
+
+    for (var i = 0; i < containers.length; i++) {
+      this.managerContainer.appendChild(containers[i]);
+    }
+  },
+
+  getDivTag: function (idValue) {
+    var attributesObjects = [];
+
+    if (idValue) {
+      attributesObjects.push({ name: 'id', value: idValue });
+    }
+
+    return this.createElementWithAttributes('div', attributesObjects);
   },
 
   renderStandardTime: function () {
@@ -64,9 +52,15 @@ AlarmManagerView.prototype = {
 
     this.appendChildrenToElement(
       standardTimeContainerDivTag,
-      this.getStandardTimePtags().concat(
-        this.getStandardTimeSetButton().concat(this.getStandardTimePickers())
-      )
+      this.getStandardTimePtags()
+        .concat(
+          this.getButtonTag(
+            '현재 시간(기준 시간) 바꾸기',
+            'alarm-standard-time-set-button',
+            'setStandardTime'
+          )
+        )
+        .concat(this.getStandardTimePickers())
     );
 
     this.managerContainer.appendChild(standardTimeContainerDivTag);
@@ -74,26 +68,16 @@ AlarmManagerView.prototype = {
 
   getStandardTimePickers: function () {
     return [
-      this.createElementWithAttributes('input', [
-        {
-          name: 'id',
-          value: 'alarm-input-date-picker',
-        },
-        {
-          name: 'placeholder',
-          value: '기준 시간의 날짜를 설정하세요',
-        },
-      ]),
-      this.createElementWithAttributes('input', [
-        {
-          name: 'id',
-          value: 'alarm-input-time-picker',
-        },
-        {
-          name: 'placeholder',
-          value: '기준 시간의 시간을 설정하세요',
-        },
-      ]),
+      this.getInputTag(
+        'alarm-input-date-picker',
+        'text',
+        '기준 시간의 날짜를 설정하세요'
+      ),
+      this.getInputTag(
+        'alarm-input-time-picker',
+        'text',
+        '기준 시간의 시간을 설정하세요'
+      ),
     ];
   },
 
@@ -109,7 +93,9 @@ AlarmManagerView.prototype = {
         .concat(this.getAlarmInputTimeSettingTags())
         .concat(this.getAlarmInputAlarmModeTags())
         .concat(this.getAlarmInputContentTags())
-        .concat(this.getAlarmInputAddButton())
+        .concat(
+          this.getButtonTag('알람 추가', 'alarm-input-add-button', 'addAlarm')
+        )
     );
 
     this.managerContainer.appendChild(alarmInputContainerDivTag);
@@ -163,19 +149,6 @@ AlarmManagerView.prototype = {
     return [
       this.getPtag(messages.STANDARD_HEADING),
       this.getPtag('test', 'alarm-standard-time'),
-    ];
-  },
-
-  getStandardTimeSetButton: function () {
-    return [
-      this.createElementWithAttributes('button', [
-        {
-          name: 'id',
-          value: 'alarm-standard-time-set-button',
-        },
-        { name: 'innerHTML', value: '현재 시간(기준 날짜) 바꾸기' },
-        { anme: 'data-action', value: 'setStandardTime' },
-      ]),
     ];
   },
 
@@ -271,28 +244,14 @@ AlarmManagerView.prototype = {
   },
 
   getAlarmInputContentTags: function () {
-    var alarmInputContentInputTag = this.createElementWithAttributes('input', [
-      {
-        name: 'id',
-        value: 'alarm-input-content-input',
-      },
-      { name: 'type', value: 'text' },
-    ]);
-
-    return [this.getPtag(messages.CONTENT), alarmInputContentInputTag];
-  },
-
-  getAlarmInputAddButton: function () {
-    var alarmInputAddButtonTag = this.createElementWithAttributes('button', [
-      {
-        name: 'id',
-        value: 'alarm-input-add-button',
-      },
-      { name: 'data-action', value: 'addAlarm' },
-      { name: 'innerHTML', value: '알람 추가' },
-    ]);
-
-    return [alarmInputAddButtonTag];
+    return (
+      this.getPtag(messages.CONTENT),
+      this.getInputTag(
+        'alarm-input-content-input',
+        'text',
+        '알람 내용을 입력해주세요.'
+      )
+    );
   },
 
   getAlarmInputTimeSettingTags: function () {
@@ -303,26 +262,16 @@ AlarmManagerView.prototype = {
 
   getAlarmInputDatePickers: function () {
     return [
-      this.createElementWithAttributes('input', [
-        {
-          name: 'id',
-          value: 'alarm-input-date-picker',
-        },
-        {
-          name: 'placeholder',
-          value: '알람을 원하는 날짜를 설정하세요',
-        },
-      ]),
-      this.createElementWithAttributes('input', [
-        {
-          name: 'id',
-          value: 'alarm-input-time-picker',
-        },
-        {
-          name: 'placeholder',
-          value: '알람을 원하는 시간을 설정하세요',
-        },
-      ]),
+      this.getInputTag(
+        'alarm-input-date-picker',
+        'text',
+        '알람을 원하는 날짜를 설정하세요'
+      ),
+      this.getInputTag(
+        'alarm-input-time-picker',
+        'text',
+        '알람을 원하는 시간을 설정하세요'
+      ),
     ];
   },
 
@@ -346,5 +295,41 @@ AlarmManagerView.prototype = {
     pTag.innerHTML = text;
 
     return pTag;
+  },
+
+  getButtonTag: function (text, idValue, actionValue) {
+    var attributesObjects = [];
+
+    if (text) {
+      attributesObjects.push({ name: 'innerHTML', value: text });
+    }
+
+    if (idValue) {
+      attributesObjects.push({ name: 'id', value: idValue });
+    }
+
+    if (actionValue) {
+      attributesObjects.push({ name: 'data-action', value: actionValue });
+    }
+
+    return this.createElementWithAttributes('button', attributesObjects);
+  },
+
+  getInputTag: function (idValue, typeValue, placeholderValue) {
+    var attributesObjects = [];
+
+    if (idValue) {
+      attributesObjects.push({ name: 'id', value: idValue });
+    }
+
+    if (typeValue) {
+      attributesObjects.push({ name: 'type', value: typeValue });
+    }
+
+    if (placeholderValue) {
+      attributesObjects.push({ name: 'placeholder', value: placeholderValue });
+    }
+
+    return this.createElementWithAttributes('input', attributesObjects);
   },
 };
