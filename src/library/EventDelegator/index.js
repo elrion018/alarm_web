@@ -1,5 +1,6 @@
 export default function EventDelegator() {
-  this.functions = {};
+  this.view = null;
+  this.viewModel = null;
 }
 
 EventDelegator.prototype.bindEvent = function (element) {
@@ -7,9 +8,15 @@ EventDelegator.prototype.bindEvent = function (element) {
 };
 
 EventDelegator.prototype.onClick = function (event) {
-  console.dir(event.target);
+  if (event.target['data-action']) {
+    this[event.target['data-action']](event.target);
+  }
 };
 
-EventDelegator.prototype.bindFunctions = function (functions) {
-  this.functions = functions;
+EventDelegator.prototype.bindView = function (view) {
+  this.view = view;
+};
+
+EventDelegator.prototype.bindViewModel = function (viewModel) {
+  this.viewModel = viewModel;
 };

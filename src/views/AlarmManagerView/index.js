@@ -9,8 +9,10 @@ export default function AlarmManagerView(viewModel, managerContainer) {
   this.managerContainer = managerContainer;
   this.eventDelegator = new AlarmManagerViewEventDelegator();
 
-  this.observer.observe(this, this.viewModel);
   this.eventDelegator.bindEvent(this.managerContainer);
+  this.eventDelegator.bindView(this);
+  this.eventDelegator.bindViewModel(this.viewModel);
+  this.observer.observe(this, this.viewModel);
   this.renderAlarmManager();
 }
 
@@ -19,7 +21,7 @@ AlarmManagerView.prototype.renderAlarmManager = function () {
   this.renderStandardTime();
   this.renderAlarmInput();
   this.renderAlarmList();
-  // this.renderAlarmMessagesCotainer();
+  this.renderAlarmMessages();
 };
 
 AlarmManagerView.prototype.renderContainers = function () {
@@ -27,7 +29,7 @@ AlarmManagerView.prototype.renderContainers = function () {
     this.getDivTag('alarm-standard-time-container'),
     this.getDivTag('alarm-input-container'),
     this.getDivTag('alarm-list-container'),
-    this.getDivTag('alarm-message-container'),
+    this.getDivTag('alarm-messages-container'),
   ];
 
   for (var i = 0; i < containers.length; i++) {
@@ -66,7 +68,7 @@ AlarmManagerView.prototype.renderStandardTime = function () {
   flatpickr('#alarm-standard-time-time-picker', {
     enableTime: true,
     noCalendar: true,
-    dateFormat: 'H:i',
+    dateFormat: 'H:i:S',
     time_24hr: true,
   });
 };
@@ -126,17 +128,129 @@ AlarmManagerView.prototype.renderAlarmList = function () {
   var alarmListContainerDivTag = this.managerContainer.querySelector(
     '#alarm-list-container'
   );
-  var alarmListHeadingPtag = document.createElement('p');
-  alarmListHeadingPtag.innerHTML = messages.ALARM_LIST;
+
+  var alarmListAlarmListContainer = this.getDivTag(
+    'alarm-list-alarm-list-container'
+  );
+
+  this.appendChildrenToElement(alarmListAlarmListContainer, [
+    this.getPtag(messages.ALARM_LIST),
+    this.getAlarmListTags(),
+  ]);
 
   this.appendChildrenToElement(alarmListContainerDivTag, [
-    alarmListHeadingPtag,
+    alarmListAlarmListContainer,
   ]);
 };
 
-AlarmManagerView.prototype.getAlarmListTags = function () {};
+AlarmManagerView.prototype.rerenderAlarmList = function () {
+  this.clearContainer('alarm-list-alarm-list-container');
+  this.appendChildrenToElement(
+    this.managerContainer.querySelector('#alarm-list-alarm-list-container'),
+    [this.getPtag(messages.ALARM_LIST), this.getAlarmListTags()]
+  );
+};
 
-AlarmManagerView.prototype.renderAlarmMessagesCotainer = function () {};
+AlarmManagerView.prototype.getAlarmListTags = function () {
+  var alarmListOlTag = this.getAlarmListOlTag('alarm-list-alarm-list');
+  var alarmArray = this.viewModel.getAlarmArray();
+
+  for (var i = 0; i < alarmArray.length; i++) {
+    alarmListOlTag.appendChild(
+      this.getAlarmListLiTag(
+        i,
+        alarmArray[i].alarmTime,
+        alarmArray[i].clockMode,
+        alarmArray[i].alarmMode,
+        alarmArray[i].alarmContent,
+        alarmArray[i].alarmOnOffState
+      )
+    );
+  }
+
+  return alarmListOlTag;
+};
+
+AlarmManagerView.prototype.getMessageListOlTag = function (idValue) {
+  var attributesObjects = [];
+
+  if (idValue) {
+    attributesObjects.push({ name: 'id', value: idValue });
+  }
+
+  return this.createElementWithAttributes('ol', attributesObjects);
+};
+
+AlarmManagerView.prototype.getAlarmMessagesListTags = function () {
+  var alarmMessagesListOlTag = this.getMessageListOlTag('alarm-messages-list');
+  var activeAlarmArray = this.viewModel.getActiveAlarmArray();
+
+  for (var i = 0; i < activeAlarmArray.length; i++) {
+    alarmMessagesListOlTag.appendChild(
+      this.getMessageListLiTag(
+        activeAlarmArray[i].alarmTime,
+        activeAlarmArray[i].clockMode,
+        activeAlarmArray[i].alarmMode,
+        activeAlarmArray[i].alarmContent
+      )
+    );
+  }
+
+  return alarmMessagesListOlTag;
+};
+
+AlarmManagerView.prototype.getMessageListLiTag = function (
+  alarmTime,
+  clockMode,
+  alarmMode,
+  content
+) {
+  var liTag = document.createElement('li');
+
+  liTag.innerHTML = [alarmTime, content].join(', ');
+
+  if (clockMode === messages.CLOCK_MODE_NORMAL) {
+    liTag.innerHTML += ', ' + messages.SOUND;
+  }
+
+  if (clockMode === messages.CLOCK_MODE_VIBRATION) {
+    liTag.innerText += ', ' + messages.VIBRATION;
+  }
+
+  if (
+    clockMode === messages.CLOCK_MODE_NIGHT &&
+    alarmMode === messages.ALARM_MODE_EMERGENCY
+  ) {
+    liTag.innerText += ', ' + messages.SOUND;
+  }
+
+  return liTag;
+};
+
+AlarmManagerView.prototype.renderAlarmMessages = function () {
+  var alarmMessagesContainerDivTag = this.managerContainer.querySelector(
+    '#alarm-messages-container'
+  );
+
+  var alarmMessagesListContainer = this.getDivTag(
+    'alarm-messages-list-container'
+  );
+
+  this.appendChildrenToElement(alarmMessagesListContainer, [
+    this.getPtag(messages.MESSAGES_LIST),
+    this.getAlarmMessagesListTags(),
+  ]);
+
+  alarmMessagesContainerDivTag.appendChild(alarmMessagesListContainer);
+};
+
+AlarmManagerView.prototype.rerenderAlarmMessages = function () {
+  this.clearContainer('alarm-messages-list-container');
+  this.appendChildrenToElement(
+    this.managerContainer.querySelector('#alarm-messages-list-container'),
+    [this.getPtag(messages.MESSAGES_LIST), this.getAlarmMessagesListTags()]
+  );
+};
 
 AlarmManagerView.prototype.getStandardTimePtags = function () {
   return [
@@ -270,7 +384,7 @@ AlarmManagerView.prototype.getPtag = function (text, idValue) {
 
 AlarmManagerView.prototype.getButtonTag = function (
   text,
-  idValue,
+  classValue,
   actionValue
 ) {
   var attributesObjects = [];
@@ -279,8 +393,8 @@ AlarmManagerView.prototype.getButtonTag = function (
     attributesObjects.push({ name: 'innerHTML', value: text });
   }
 
-  if (idValue) {
-    attributesObjects.push({ name: 'id', value: idValue });
+  if (classValue) {
+    attributesObjects.push({ name: 'className', value: classValue });
   }
 
   if (actionValue) {
@@ -348,4 +462,63 @@ AlarmManagerView.prototype.getSelectTag = function (idValue) {
 
 AlarmManagerView.prototype.clearContainer = function (containerId) {
   this.managerContainer.querySelector('#' + containerId).innerHTML = '';
+};
+
+AlarmManagerView.prototype.getAlarmListOlTag = function (idValue) {
+  var attributesObjects = [];
+
+  if (idValue) {
+    attributesObjects.push({ name: 'id', value: idValue });
+  }
+
+  return this.createElementWithAttributes('ol', attributesObjects);
+};
+
+AlarmManagerView.prototype.getAlarmListLiTag = function (
+  itemIdValue,
+  alarmTime,
+  clockMode,
+  alarmMode,
+  content,
+  alarmOnOffState
+) {
+  var attributesObjects = [];
+
+  if (itemIdValue) {
+    attributesObjects.push({ name: 'data-itemId', value: itemIdValue });
+  }
+
+  if (alarmOnOffState) {
+    alarmOnOffState = messages.ON;
+  } else {
+    alarmOnOffState = messages.OFF;
+  }
+
+  var liTag = this.createElementWithAttributes('li', attributesObjects);
+
+  liTag.innerHTML = [
+    alarmTime,
+    content,
+    clockMode + messages.MODE,
+    alarmMode + messages.MODE,
+    alarmOnOffState,
+  ].join(', ');
+
+  var onOffButton = this.getButtonTag(
+    messages.ON_OFF,
+    'alarm-list-on-off-button',
+    'onOffItem'
+  );
+  var removeButton = this.getButtonTag(
+    messages.REMOVE,
+    'alarm-list-remove-button',
+    'removeItem'
+  );
+
+  onOffButton['data-itemId'] = itemIdValue;
+  removeButton['data-itemId'] = itemIdValue;
+
+  this.appendChildrenToElement(liTag, [onOffButton, removeButton]);
+
+  return liTag;
 };

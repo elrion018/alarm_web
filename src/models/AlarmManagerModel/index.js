@@ -25,7 +25,7 @@ AlarmManagerModel.prototype = {
   },
 
   loadDataFromLocalStorage: function () {
-    console.log(localStorage);
+    // console.log(localStorage);
     if (localStorage['alarmArray']) {
       this.setAlarmArray(JSON.parse(localStorage.getItem('alarmArray')));
     }
@@ -41,23 +41,27 @@ AlarmManagerModel.prototype = {
 
   setStandardTime: function (time) {
     clearInterval(this._timer1);
-    this.standardTime = time;
+    this.standardTime = new Date(time);
     this.setTimer();
 
-    return this.standardTime;
+    this.publish('setStandardTimeInViewModel');
+    this.searchActiveAlarms(this.standardTime);
   },
 
   passStandardTime: function () {
-    console.log('passStandardTime');
+    var prevMinute = this.standardTime.getMinutes();
+
     this.standardTime.setMilliseconds(
       this.standardTime.getMilliseconds() + 1000
     );
 
+    var nowMinute = this.standardTime.getMinutes();
+
     this.publish('setStandardTimeInViewModel');
 
-    this.searchActiveAlarms(this.standardTime);
-
-    return this.standardTime;
+    if (prevMinute !== nowMinute) {
+      this.searchActiveAlarms(this.standardTime);
+    }
   },
 
   getAlarmArray: function () {
@@ -87,13 +91,13 @@ AlarmManagerModel.prototype = {
 
     // this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
-    console.log(this.alarmArray, 'setAlarmArray');
+    // console.log(this.alarmArray, 'setAlarmArray');
 
     return this.alarmArray;
   },
 
   addAlarmToAlarmArray: function (alarmObject) {
-    console.log('addAlarmToAlarmArray');
+    // console.log('addAlarmToAlarmArray');
     this.alarmArray.push(new Alarm(alarmObject));
 
     this.alarmArray.sort(function (a, b) {
@@ -102,7 +106,8 @@ AlarmManagerModel.prototype = {
 
     // this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
-    return this.alarmArray;
+    // console.log(this.alarmArray, 'addAlarmToAlarmArray');
+    this.publish('setAlarmArrayInViewModel');
   },
 
   removeAlarmFromAlarmArray: function (alarmIndex) {
@@ -110,7 +115,7 @@ AlarmManagerModel.prototype = {
 
     // this.saveDataToLocalStorage('alarmArray', this.alarmArray);
 
-    return this.alarmArray;
+    this.publish('setAlarmArrayInViewModel');
   },
 
   getActiveAlarmArray: function () {
@@ -121,20 +126,24 @@ AlarmManagerModel.prototype = {
     this.activeAlarmArray = [];
 
     for (var i = 0; i < this.alarmArray.length; i++) {
-      if (standardTime.toString() === this.alarmArray[i].alarmTime.toString()) {
+      if (
+        standardTime.toString() === this.alarmArray[i].alarmTime.toString() &&
+        this.alarmArray[i].alarmOnOffState
+      ) {
         this.activeAlarmArray.push(this.alarmArray[i]);
       }
     }
+    console.log('searchActiveAlarms');
 
-    this.publish('getActiveAlarmArray');
-
-    return this.activeAlarmArray;
+    this.publish('setActiveAlarmArrayInViewModel');
   },
 
   setOnOffStateOfAlarm: function (alarmIndex) {
     // saveDataToLocalStorage('alarmArray', this.alarmArray)
-    return this.alarmArray[alarmIndex].setAlarmOnOffState(
+    this.alarmArray[alarmIndex].setAlarmOnOffState(
       !this.alarmArray[alarmIndex].getAlarmOnOffState()
     );
+
+    this.publish('setAlarmArrayInViewModel');
   },
 };

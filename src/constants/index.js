@@ -11,6 +11,16 @@ var messages = {
   CONTENT: '내용',
   TIME_SETTING: '시간 설정',
   ALARM_LIST: '알람 목록',
+  MODE: '모드',
+  REMOVE: '삭제',
+  ON_OFF: '켜기/끄기',
+  ON: '알람 켜짐',
+  OFF: '알람 꺼짐',
+  SOUND: '소리 알람',
+  VIBRATION: '진동 알람',
+  MESSAGES_LIST: '알람 메세지',
+  ALERT_FOT_EMPTY_DATE_TIME: '날짜와 숫자 둘 다 입력해주세요.',
+  ALERT_FOT_EMPTY_CONTENT: '알람 내용을 입력해주세요.',
 };
 
 export { messages };

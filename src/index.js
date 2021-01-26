@@ -37,11 +37,29 @@ window.addEventListener('DOMContentLoaded', function () {
 
   // console.log(
   //   managerViewModel.addAlarmToAlarmArray({
-  //     alarmTime: new Date('2021-01-25T18:53:30'),
-  //     clockMode: 'test',
-  //     alarmMode: 'test',
+  //     alarmTime: '2021-01-26T20:56:00',
+  //     clockMode: '일반',
+  //     alarmMode: '일반',
   //     alarmContent: 'test',
   //     alarmOnOffState: true,
+  //   })
+  // );
+  // console.log(
+  //   managerViewModel.addAlarmToAlarmArray({
+  //     alarmTime: '2021-01-26T20:56:00',
+  //     clockMode: '진동',
+  //     alarmMode: '일반',
+  //     alarmContent: 'test',
+  //     alarmOnOffState: true,
+  //   })
+  // );
+  // console.log(
+  //   managerViewModel.addAlarmToAlarmArray({
+  //     alarmTime: '2021-01-26T20:56:00',
+  //     clockMode: '야간',
+  //     alarmMode: '긴급',
+  //     alarmContent: 'test',
+  //     alarmOnOffState: false,
   //   })
   // );
 

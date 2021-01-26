@@ -1,5 +1,5 @@
 export default function Alarm(alarmObject) {
-  this.alarmTime = alarmObject.alarmTime;
+  this.alarmTime = new Date(alarmObject.alarmTime);
   this.clockMode = alarmObject.clockMode;
   this.alarmMode = alarmObject.alarmMode;
   this.alarmContent = alarmObject.alarmContent;
