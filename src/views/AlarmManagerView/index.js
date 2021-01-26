@@ -35,16 +35,6 @@ AlarmManagerView.prototype = {
     }
   },
 
-  getDivTag: function (idValue) {
-    var attributesObjects = [];
-
-    if (idValue) {
-      attributesObjects.push({ name: 'id', value: idValue });
-    }
-
-    return this.createElementWithAttributes('div', attributesObjects);
-  },
-
   renderStandardTime: function () {
     var standardTimeContainerDivTag = this.managerContainer.querySelector(
       '#alarm-standard-time-container'
@@ -153,63 +143,23 @@ AlarmManagerView.prototype = {
   },
 
   getClockModeOptions: function () {
-    var alarmInputClockModeNormalOptionTag = this.createElementWithAttributes(
-      'option',
-      [
-        { name: 'value', value: messages.CLOCK_MODE_NORMAL },
-        { name: 'innerHTML', value: messages.CLOCK_MODE_NORMAL },
-      ]
-    );
-    var alarmInputClockModeVibrationOptionTag = this.createElementWithAttributes(
-      'option',
-      [
-        {
-          name: 'value',
-          value: messages.CLOCK_MODE_VIBRATION,
-        },
-        { name: 'innerHTML', value: messages.CLOCK_MODE_VIBRATION },
-      ]
-    );
-    var alarmInputClockModeNightOptionTag = this.createElementWithAttributes(
-      'option',
-      [
-        {
-          name: 'value',
-          value: messages.CLOCK_MODE_NIGHT,
-        },
-        { name: 'innerHTML', value: messages.CLOCK_MODE_NIGHT },
-      ]
-    );
-
     return [
-      alarmInputClockModeNormalOptionTag,
-      alarmInputClockModeVibrationOptionTag,
-      alarmInputClockModeNightOptionTag,
+      this.getOptionTag(messages.CLOCK_MODE_NORMAL, messages.CLOCK_MODE_NORMAL),
+      this.getOptionTag(
+        messages.CLOCK_MODE_VIBRATION,
+        messages.CLOCK_MODE_VIBRATION
+      ),
+      this.getOptionTag(messages.CLOCK_MODE_NIGHT, messages.CLOCK_MODE_NIGHT),
     ];
   },
 
   getAlarmModeOptions: function () {
-    var alarmInputAlarmModeNormalOptionTag = this.createElementWithAttributes(
-      'option',
-      [
-        { name: 'value', value: messages.ALARM_MODE_NORMAL },
-        { name: 'innerHTML', value: messages.ALARM_MODE_NORMAL },
-      ]
-    );
-    var alarmInputAlarmModeEmergencyOptionTag = this.createElementWithAttributes(
-      'option',
-      [
-        {
-          name: 'value',
-          value: messages.ALARM_MODE_EMERGENCY,
-        },
-        { name: 'innerHTML', value: messages.ALARM_MODE_EMERGENCY },
-      ]
-    );
-
     return [
-      alarmInputAlarmModeNormalOptionTag,
-      alarmInputAlarmModeEmergencyOptionTag,
+      this.getOptionTag(messages.ALARM_MODE_NORMAL, messages.ALARM_MODE_NORMAL),
+      this.getOptionTag(
+        messages.ALARM_MODE_EMERGENCY,
+        messages.ALARM_MODE_EMERGENCY
+      ),
     ];
   },
 
@@ -331,5 +281,29 @@ AlarmManagerView.prototype = {
     }
 
     return this.createElementWithAttributes('input', attributesObjects);
+  },
+
+  getDivTag: function (idValue) {
+    var attributesObjects = [];
+
+    if (idValue) {
+      attributesObjects.push({ name: 'id', value: idValue });
+    }
+
+    return this.createElementWithAttributes('div', attributesObjects);
+  },
+
+  getOptionTag: function (text, value) {
+    var attributesObjects = [];
+
+    if (text) {
+      attributesObjects.push({ name: 'innerHTML', value: text });
+    }
+
+    if (value) {
+      attributesObjects.push({ name: 'value', value: value });
+    }
+
+    return this.createElementWithAttributes('option', attributesObjects);
   },
 };
