@@ -146,6 +146,7 @@
 - 반복되는 코드를 줄이고 재사용성을 위해 프로토타입의 특징을 활용하여 최대한 함수화와 모듈화를 진행하였습니다.
 - reactive한 웹을 구현하는데 유리한 MVVM 패턴을 적용하였고 시간 흐름, 알람 작동을 자동적으로 렌더링하기 위해 Observer 패턴을 사용하였습니다.
 - NHN FE development Lab에서 제공하는 [코드 컨벤션](https://ui.toast.com/fe-guide/ko_CODING-CONVENTION)을 따릅니다.
+- https://github.com/elrion018/alarm_web 에서 형상관리를 하며 프로젝트를 진행하였습니다. 현재는 private 상태이며, 참고를 원하시면 공개하여 보여드리겠습니다.
 
 ## 맺음말
 
