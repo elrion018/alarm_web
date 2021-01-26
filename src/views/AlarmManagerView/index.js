@@ -1,18 +1,16 @@
 import { Observer } from '../../library';
 import { messages } from '../../constants';
-
+import { AlarmManagerViewEventDelegator } from '../../eventDelegators';
 import flatpickr from 'flatpickr';
 
 export default function AlarmManagerView(viewModel, managerContainer) {
   this.viewModel = viewModel;
   this.observer = new Observer();
   this.managerContainer = managerContainer;
-  this.eventDelegator = null;
+  this.eventDelegator = new AlarmManagerViewEventDelegator();
 
   this.observer.observe(this, this.viewModel);
-
-  console.log(this);
-
+  this.eventDelegator.bindEvent(this.managerContainer);
   this.renderAlarmManager();
 }
 

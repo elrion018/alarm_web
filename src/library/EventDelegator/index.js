@@ -7,7 +7,7 @@ EventDelegator.prototype.bindEvent = function (element) {
 };
 
 EventDelegator.prototype.onClick = function (event) {
-  console.log(event.target);
+  console.dir(event.target);
 };
 
 EventDelegator.prototype.bindFunctions = function (functions) {
