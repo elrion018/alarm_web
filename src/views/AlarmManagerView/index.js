@@ -73,31 +73,6 @@ AlarmManagerView.prototype.renderStandardTime = function () {
   });
 };
 
-AlarmManagerView.prototype.rerenderStandardTimeString = function () {
-  this.clearContainer('alarm-standard-time-string-container');
-  this.appendChildrenToElement(
-    this.managerContainer.querySelector(
-      '#alarm-standard-time-string-container'
-    ),
-    this.getStandardTimePtags()
-  );
-};
-
-AlarmManagerView.prototype.getStandardTimePickers = function () {
-  return [
-    this.getInputTag(
-      'alarm-standard-time-date-picker',
-      'text',
-      '기준 시간의 날짜를 설정하세요'
-    ),
-    this.getInputTag(
-      'alarm-standard-time-time-picker',
-      'text',
-      '기준 시간의 시간을 설정하세요'
-    ),
-  ];
-};
-
 AlarmManagerView.prototype.renderAlarmInput = function () {
   var alarmInputContainerDivTag = this.managerContainer.querySelector(
     '#alarm-input-container'
@@ -143,90 +118,6 @@ AlarmManagerView.prototype.renderAlarmList = function () {
   ]);
 };
 
-AlarmManagerView.prototype.rerenderAlarmList = function () {
-  this.clearContainer('alarm-list-alarm-list-container');
-  this.appendChildrenToElement(
-    this.managerContainer.querySelector('#alarm-list-alarm-list-container'),
-    [this.getPtag(messages.ALARM_LIST), this.getAlarmListTags()]
-  );
-};
-
-AlarmManagerView.prototype.getAlarmListTags = function () {
-  var alarmListOlTag = this.getAlarmListOlTag('alarm-list-alarm-list');
-  var alarmArray = this.viewModel.getAlarmArray();
-
-  for (var i = 0; i < alarmArray.length; i++) {
-    alarmListOlTag.appendChild(
-      this.getAlarmListLiTag(
-        i,
-        alarmArray[i].alarmTime,
-        alarmArray[i].clockMode,
-        alarmArray[i].alarmMode,
-        alarmArray[i].alarmContent,
-        alarmArray[i].alarmOnOffState
-      )
-    );
-  }
-
-  return alarmListOlTag;
-};
-
-AlarmManagerView.prototype.getMessageListOlTag = function (idValue) {
-  var attributesObjects = [];
-
-  if (idValue) {
-    attributesObjects.push({ name: 'id', value: idValue });
-  }
-
-  return this.createElementWithAttributes('ol', attributesObjects);
-};
-
-AlarmManagerView.prototype.getAlarmMessagesListTags = function () {
-  var alarmMessagesListOlTag = this.getMessageListOlTag('alarm-messages-list');
-  var activeAlarmArray = this.viewModel.getActiveAlarmArray();
-
-  for (var i = 0; i < activeAlarmArray.length; i++) {
-    alarmMessagesListOlTag.appendChild(
-      this.getMessageListLiTag(
-        activeAlarmArray[i].alarmTime,
-        activeAlarmArray[i].clockMode,
-        activeAlarmArray[i].alarmMode,
-        activeAlarmArray[i].alarmContent
-      )
-    );
-  }
-
-  return alarmMessagesListOlTag;
-};
-
-AlarmManagerView.prototype.getMessageListLiTag = function (
-  alarmTime,
-  clockMode,
-  alarmMode,
-  content
-) {
-  var liTag = document.createElement('li');
-
-  liTag.innerHTML = [alarmTime, content].join(', ');
-
-  if (clockMode === messages.CLOCK_MODE_NORMAL) {
-    liTag.innerHTML += ', ' + messages.SOUND;
-  }
-
-  if (clockMode === messages.CLOCK_MODE_VIBRATION) {
-    liTag.innerText += ', ' + messages.VIBRATION;
-  }
-
-  if (
-    clockMode === messages.CLOCK_MODE_NIGHT &&
-    alarmMode === messages.ALARM_MODE_EMERGENCY
-  ) {
-    liTag.innerText += ', ' + messages.SOUND;
-  }
-
-  return liTag;
-};
-
 AlarmManagerView.prototype.renderAlarmMessages = function () {
   var alarmMessagesContainerDivTag = this.managerContainer.querySelector(
     '#alarm-messages-container'
@@ -242,6 +133,28 @@ AlarmManagerView.prototype.renderAlarmMessages = function () {
   ]);
 
   alarmMessagesContainerDivTag.appendChild(alarmMessagesListContainer);
+};
+
+AlarmManagerView.prototype.clearContainer = function (containerId) {
+  this.managerContainer.querySelector('#' + containerId).innerHTML = '';
+};
+
+AlarmManagerView.prototype.rerenderStandardTimeString = function () {
+  this.clearContainer('alarm-standard-time-string-container');
+  this.appendChildrenToElement(
+    this.managerContainer.querySelector(
+      '#alarm-standard-time-string-container'
+    ),
+    this.getStandardTimePtags()
+  );
+};
+
+AlarmManagerView.prototype.rerenderAlarmList = function () {
+  this.clearContainer('alarm-list-alarm-list-container');
+  this.appendChildrenToElement(
+    this.managerContainer.querySelector('#alarm-list-alarm-list-container'),
+    [this.getPtag(messages.ALARM_LIST), this.getAlarmListTags()]
+  );
 };
 
 AlarmManagerView.prototype.rerenderAlarmMessages = function () {
@@ -460,10 +373,6 @@ AlarmManagerView.prototype.getSelectTag = function (idValue) {
   return this.createElementWithAttributes('select', attributesObjects);
 };
 
-AlarmManagerView.prototype.clearContainer = function (containerId) {
-  this.managerContainer.querySelector('#' + containerId).innerHTML = '';
-};
-
 AlarmManagerView.prototype.getAlarmListOlTag = function (idValue) {
   var attributesObjects = [];
 
@@ -519,6 +428,97 @@ AlarmManagerView.prototype.getAlarmListLiTag = function (
   removeButton['data-itemId'] = itemIdValue;
 
   this.appendChildrenToElement(liTag, [onOffButton, removeButton]);
+
+  return liTag;
+};
+
+AlarmManagerView.prototype.getAlarmListTags = function () {
+  var alarmListOlTag = this.getAlarmListOlTag('alarm-list-alarm-list');
+  var alarmArray = this.viewModel.getAlarmArray();
+
+  for (var i = 0; i < alarmArray.length; i++) {
+    alarmListOlTag.appendChild(
+      this.getAlarmListLiTag(
+        i,
+        alarmArray[i].alarmTime,
+        alarmArray[i].clockMode,
+        alarmArray[i].alarmMode,
+        alarmArray[i].alarmContent,
+        alarmArray[i].alarmOnOffState
+      )
+    );
+  }
+
+  return alarmListOlTag;
+};
+
+AlarmManagerView.prototype.getStandardTimePickers = function () {
+  return [
+    this.getInputTag(
+      'alarm-standard-time-date-picker',
+      'text',
+      '기준 시간의 날짜를 설정하세요'
+    ),
+    this.getInputTag(
+      'alarm-standard-time-time-picker',
+      'text',
+      '기준 시간의 시간을 설정하세요'
+    ),
+  ];
+};
+
+AlarmManagerView.prototype.getMessageListOlTag = function (idValue) {
+  var attributesObjects = [];
+
+  if (idValue) {
+    attributesObjects.push({ name: 'id', value: idValue });
+  }
+
+  return this.createElementWithAttributes('ol', attributesObjects);
+};
+
+AlarmManagerView.prototype.getAlarmMessagesListTags = function () {
+  var alarmMessagesListOlTag = this.getMessageListOlTag('alarm-messages-list');
+  var activeAlarmArray = this.viewModel.getActiveAlarmArray();
+
+  for (var i = 0; i < activeAlarmArray.length; i++) {
+    alarmMessagesListOlTag.appendChild(
+      this.getMessageListLiTag(
+        activeAlarmArray[i].alarmTime,
+        activeAlarmArray[i].clockMode,
+        activeAlarmArray[i].alarmMode,
+        activeAlarmArray[i].alarmContent
+      )
+    );
+  }
+
+  return alarmMessagesListOlTag;
+};
+
+AlarmManagerView.prototype.getMessageListLiTag = function (
+  alarmTime,
+  clockMode,
+  alarmMode,
+  content
+) {
+  var liTag = document.createElement('li');
+
+  liTag.innerHTML = [alarmTime, content].join(', ');
+
+  if (clockMode === messages.CLOCK_MODE_NORMAL) {
+    liTag.innerHTML += ', ' + messages.SOUND;
+  }
+
+  if (clockMode === messages.CLOCK_MODE_VIBRATION) {
+    liTag.innerText += ', ' + messages.VIBRATION;
+  }
+
+  if (
+    clockMode === messages.CLOCK_MODE_NIGHT &&
+    alarmMode === messages.ALARM_MODE_EMERGENCY
+  ) {
+    liTag.innerText += ', ' + messages.SOUND;
+  }
 
   return liTag;
 };
