@@ -1,5 +1,4 @@
 import Observer from './Observer';
 import Publisher from './Publisher';
-import ViewComponent from './ViewComponent';
-
-export { Observer, Publisher, ViewComponent };
+import EventDelegator from './EventDelegator';
+export { Observer, Publisher, EventDelegator };

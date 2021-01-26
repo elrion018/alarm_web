@@ -10,10 +10,6 @@ export default function AlarmManagerViewModel(model) {
 }
 
 AlarmManagerViewModel.prototype = {
-  // observe: function () {
-  //   this.observer.observe(this, this.model);
-  // },
-
   getActiveAlarmArray: function () {
     this.activeAlarmArray = this.model.getActiveAlarmArray();
     console.log(this.activeAlarmArray, 'getActiveAlarmArray');

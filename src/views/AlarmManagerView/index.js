@@ -1,6 +1,6 @@
 import { Observer } from '../../library';
 import { messages } from '../../constants';
-import { ViewComponent } from '../../library';
+
 import flatpickr from 'flatpickr';
 
 export default function AlarmManagerView(viewModel, managerContainer) {
@@ -15,9 +15,6 @@ export default function AlarmManagerView(viewModel, managerContainer) {
 
   this.renderAlarmManager();
 }
-
-AlarmManagerView.prototype = Object.create(ViewComponent.prototype);
-AlarmManagerView.prototype.constructor = AlarmManagerView;
 
 AlarmManagerView.prototype.renderAlarmManager = function () {
   this.renderContainers();
@@ -110,6 +107,7 @@ AlarmManagerView.prototype.renderAlarmInput = function () {
     time_24hr: true,
   });
 };
+
 AlarmManagerView.prototype.renderAlarmList = function () {
   var alarmListContainerDivTag = this.managerContainer.querySelector(
     '#alarm-list-container'
@@ -212,4 +210,126 @@ AlarmManagerView.prototype.getAlarmInputDatePickers = function () {
       '알람을 원하는 시간을 설정하세요'
     ),
   ];
+};
+
+AlarmManagerView.prototype.createElementWithAttributes = function (
+  tagName,
+  attributesObjects
+) {
+  var element = document.createElement(tagName);
+
+  for (var i = 0; i < attributesObjects.length; i++) {
+    element[attributesObjects[i].name] = attributesObjects[i].value;
+  }
+
+  return element;
+};
+
+AlarmManagerView.prototype.appendChildrenToElement = function (
+  element,
+  children
+) {
+  for (var i = 0; i < children.length; i++) {
+    element.appendChild(children[i]);
+  }
+};
+
+AlarmManagerView.prototype.getPtag = function (text, idValue) {
+  var pTag;
+
+  if (idValue) {
+    pTag = this.createElementWithAttributes('p', [
+      {
+        name: 'id',
+        value: idValue,
+      },
+    ]);
+
+    pTag.innerHTML = text;
+
+    return pTag;
+  }
+
+  pTag = document.createElement('p');
+  pTag.innerHTML = text;
+
+  return pTag;
+};
+
+AlarmManagerView.prototype.getButtonTag = function (
+  text,
+  idValue,
+  actionValue
+) {
+  var attributesObjects = [];
+
+  if (text) {
+    attributesObjects.push({ name: 'innerHTML', value: text });
+  }
+
+  if (idValue) {
+    attributesObjects.push({ name: 'id', value: idValue });
+  }
+
+  if (actionValue) {
+    attributesObjects.push({ name: 'data-action', value: actionValue });
+  }
+
+  return this.createElementWithAttributes('button', attributesObjects);
+};
+
+AlarmManagerView.prototype.getInputTag = function (
+  idValue,
+  typeValue,
+  placeholderValue
+) {
+  var attributesObjects = [];
+
+  if (idValue) {
+    attributesObjects.push({ name: 'id', value: idValue });
+  }
+
+  if (typeValue) {
+    attributesObjects.push({ name: 'type', value: typeValue });
+  }
+
+  if (placeholderValue) {
+    attributesObjects.push({ name: 'placeholder', value: placeholderValue });
+  }
+
+  return this.createElementWithAttributes('input', attributesObjects);
+};
+
+AlarmManagerView.prototype.getDivTag = function (idValue) {
+  var attributesObjects = [];
+
+  if (idValue) {
+    attributesObjects.push({ name: 'id', value: idValue });
+  }
+
+  return this.createElementWithAttributes('div', attributesObjects);
+};
+
+AlarmManagerView.prototype.getOptionTag = function (text, value) {
+  var attributesObjects = [];
+
+  if (text) {
+    attributesObjects.push({ name: 'innerHTML', value: text });
+  }
+
+  if (value) {
+    attributesObjects.push({ name: 'value', value: value });
+  }
+
+  return this.createElementWithAttributes('option', attributesObjects);
+};
+
+AlarmManagerView.prototype.getSelectTag = function (idValue) {
+  var attributesObjects = [];
+
+  if (idValue) {
+    attributesObjects.push({ name: 'id', value: idValue });
+  }
+
+  return this.createElementWithAttributes('select', attributesObjects);
 };
