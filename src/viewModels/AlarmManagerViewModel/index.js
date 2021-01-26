@@ -12,73 +12,73 @@ export default function AlarmManagerViewModel(model) {
   this.observer.observe(this, this.model);
 }
 
-AlarmManagerViewModel.prototype = {
-  publish: function (callback) {
-    this.publisher.publish(callback);
-  },
+AlarmManagerViewModel.prototype.publish = function (callback) {
+  this.publisher.publish(callback);
+};
 
-  getActiveAlarmArray: function () {
-    this.activeAlarmArray = this.model.getActiveAlarmArray();
-    console.log(this.activeAlarmArray, 'getActiveAlarmArray');
+AlarmManagerViewModel.prototype.getActiveAlarmArray = function () {
+  this.activeAlarmArray = this.model.getActiveAlarmArray();
+  console.log(this.activeAlarmArray, 'getActiveAlarmArray');
 
-    return this.activeAlarmArray;
-  },
+  return this.activeAlarmArray;
+};
 
-  setActiveAlarmArrayInViewModel: function () {
-    this.activeAlarmArray = this.model.getActiveAlarmArray();
+AlarmManagerViewModel.prototype.setActiveAlarmArrayInViewModel = function () {
+  this.activeAlarmArray = this.model.getActiveAlarmArray();
 
-    this.publish('rerenderAlarmMessages');
-  },
+  this.publish('rerenderAlarmMessages');
+};
 
-  getStandardTime: function () {
-    return this.model.getStandardTime();
-  },
+AlarmManagerViewModel.prototype.getStandardTime = function () {
+  return this.model.getStandardTime();
+};
 
-  setStandardTimeInModel: function (date, time) {
-    var exception = this.validationStandardTime(date, time);
+AlarmManagerViewModel.prototype.setStandardTimeInModel = function (date, time) {
+  var exception = this.validationStandardTime(date, time);
 
-    if (exception) {
-      alert(exception);
+  if (exception) {
+    alert(exception);
 
-      return;
-    }
+    return;
+  }
 
-    return this.model.setStandardTime(date + 'T' + time);
-  },
+  return this.model.setStandardTime(date + 'T' + time);
+};
 
-  setStandardTimeInViewModel: function () {
-    this.standardTime = this.model.getStandardTime();
-    // console.log(this.standardTime);
-    this.publish('rerenderStandardTimeString');
-  },
+AlarmManagerViewModel.prototype.setStandardTimeInViewModel = function () {
+  this.standardTime = this.model.getStandardTime();
+  // console.log(this.standardTime);
+  this.publish('rerenderStandardTimeString');
+};
 
-  getAlarmArray: function () {
-    return this.model.getAlarmArray();
-  },
+AlarmManagerViewModel.prototype.getAlarmArray = function () {
+  return this.model.getAlarmArray();
+};
 
-  setAlarmArray: function (array) {
-    return this.model.setAlarmArray(array);
-  },
+AlarmManagerViewModel.prototype.setAlarmArray = function (array) {
+  return this.model.setAlarmArray(array);
+};
 
-  addAlarmToAlarmArray: function (alarmObject) {
-    var exception = this.validationAlarmObject(alarmObject);
+AlarmManagerViewModel.prototype.addAlarmToAlarmArray = function (alarmObject) {
+  var exception = this.validationAlarmObject(alarmObject);
 
-    if (exception) {
-      alert(exception);
+  if (exception) {
+    alert(exception);
 
-      return;
-    }
+    return;
+  }
 
-    return this.model.addAlarmToAlarmArray(alarmObject);
-  },
+  return this.model.addAlarmToAlarmArray(alarmObject);
+};
 
-  removeAlarmFromAlarmArray: function (alarmIndex) {
-    return this.model.removeAlarmFromAlarmArray(alarmIndex);
-  },
+AlarmManagerViewModel.prototype.removeAlarmFromAlarmArray = function (
+  alarmIndex
+) {
+  return this.model.removeAlarmFromAlarmArray(alarmIndex);
+};
 
-  setOnOffStateOfAlarm: function (alarmIndex) {
-    return this.model.setOnOffStateOfAlarm(alarmIndex);
-  },
+AlarmManagerViewModel.prototype.setOnOffStateOfAlarm = function (alarmIndex) {
+  return this.model.setOnOffStateOfAlarm(alarmIndex);
 };
 
 AlarmManagerViewModel.prototype.setAlarmArrayInViewModel = function () {

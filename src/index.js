@@ -35,33 +35,33 @@ window.addEventListener('DOMContentLoaded', function () {
   //   })
   // );
 
-  // console.log(
-  //   managerViewModel.addAlarmToAlarmArray({
-  //     alarmTime: '2021-01-26T20:56:00',
-  //     clockMode: '일반',
-  //     alarmMode: '일반',
-  //     alarmContent: 'test',
-  //     alarmOnOffState: true,
-  //   })
-  // );
-  // console.log(
-  //   managerViewModel.addAlarmToAlarmArray({
-  //     alarmTime: '2021-01-26T20:56:00',
-  //     clockMode: '진동',
-  //     alarmMode: '일반',
-  //     alarmContent: 'test',
-  //     alarmOnOffState: true,
-  //   })
-  // );
-  // console.log(
-  //   managerViewModel.addAlarmToAlarmArray({
-  //     alarmTime: '2021-01-26T20:56:00',
-  //     clockMode: '야간',
-  //     alarmMode: '긴급',
-  //     alarmContent: 'test',
-  //     alarmOnOffState: false,
-  //   })
-  // );
+  console.log(
+    managerViewModel.addAlarmToAlarmArray({
+      alarmTime: '2021-01-26T20:56:00',
+      clockMode: '일반',
+      alarmMode: '일반',
+      alarmContent: 'test',
+      alarmOnOffState: true,
+    })
+  );
+  console.log(
+    managerViewModel.addAlarmToAlarmArray({
+      alarmTime: '2021-01-26T20:56:00',
+      clockMode: '진동',
+      alarmMode: '일반',
+      alarmContent: 'test',
+      alarmOnOffState: true,
+    })
+  );
+  console.log(
+    managerViewModel.addAlarmToAlarmArray({
+      alarmTime: '2021-01-26T20:56:00',
+      clockMode: '야간',
+      alarmMode: '긴급',
+      alarmContent: 'test',
+      alarmOnOffState: false,
+    })
+  );
 
   // console.log(managerModel.setOnOffStateOfAlarm(1));
   // console.log(managerModel.getAlarmArray());
